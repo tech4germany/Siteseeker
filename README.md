@@ -1,0 +1,2 @@
+docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v "${PWD}:/tmp/ogr" -e OSM_CONFIG_FILE="/tmp/ogr/osmconf.ini" osgeo/gdal:alpine-small-latest ogr2ogr -progress -nln osm -overwrite -sql "select * from points where amenity is not null or shop is not null or leisure is not null or office is not null" -lco MAPPING="/tmp/ogr/osm_mapping.json" -lco GEOM_MAPPING_TYPE="GEO_SHAPE" -lco GEOMETRY_NAME=location ES:${ELASTIC_URL} /tmp/ogr/new-york-latest.osm.pbf
+
