@@ -1,0 +1,66 @@
+img {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  padding: 0.5%;
+  padding-bottom: 0%;
+  width: 70px;
+}
+
+h6 {
+  color: white;
+}
+
+.header {
+  background-color: #20203b;
+}
+
+.navbar {
+  padding-bottom: 0%;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.display-5 {
+  color: white;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+p {
+  color: white;
+}
+
+.avatar {
+  //background-image: url('../../../../assets/Passbild_klein.jpg');
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.avatar:hover {
+  -webkit-box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
+  box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
+}
+
+i {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  color: white;
+  font-size: 30pt;
+  border-radius: 50%;
+}
+
+i:hover {
+  //color: #171515;
+  -webkit-box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
+  box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
+}
