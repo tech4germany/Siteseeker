@@ -17,14 +17,16 @@ import { register } from 'ol/proj/proj4';
 import { get as GetProjection } from 'ol/proj';
 import { Extent } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
-import OSM, { ATTRIBUTION } from 'ol/source/OSM';
+import { OSM, TileWMS, XYZ } from 'ol/source';
+import { SidebarControl } from './custom-controls/sidebar-control';
+import { Layer } from 'ol/layer';
 
 @Component({
-  selector: 'app-test-map',
-  templateUrl: './test-map.component.html',
-  styleUrls: ['./test-map.component.scss'],
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
 })
-export class TestMapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit {
   private center: Coordinate = [52.502339682808056, 13.413504442645158];
   private zoom: number = 8.5;
   view: View = new View();
@@ -40,6 +42,8 @@ export class TestMapComponent implements AfterViewInit {
       this.zone.runOutsideAngular(() => this.initMap());
     }
     setTimeout(() => this.mapReady.emit(this.Map));
+
+    this.Map?.addControl(new SidebarControl(this.Map));
   }
 
   private initMap(): void {
@@ -60,8 +64,24 @@ export class TestMapComponent implements AfterViewInit {
       this.Map = new Map({
         layers: [
           new TileLayer({
-            source: new OSM({}),
-          }),
+            source: new XYZ({
+              attributions: [
+                'Powered by Esri',
+                'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community',
+              ],
+              attributionsCollapsible: false,
+              url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+              maxZoom: 24,
+            }),
+          }) /*new TileLayer({
+            source: new TileWMS({
+              url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
+              params: { LAYERS: 'simple', TILED: true },
+              serverType: 'geoserver',
+              // Countries have transparency, so do not fade tiles:
+              transition: 0,
+            }),
+          }),*/,
         ],
         target: 'map',
         view: this.view,
