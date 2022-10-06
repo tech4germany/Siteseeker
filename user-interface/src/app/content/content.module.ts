@@ -8,10 +8,23 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { TestMapComponent } from './test-map/test-map.component';
 import { MapComponent } from './map/map.component';
 import { CustomControlsComponent } from './map/custom-controls/custom-controls.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, LandingPageComponent, TestMapComponent, MapComponent, CustomControlsComponent],
-  imports: [CommonModule, ContentRoutingModule, NgbModule, ThemeModule],
+  declarations: [
+    PageNotFoundComponent,
+    LandingPageComponent,
+    TestMapComponent,
+    MapComponent,
+    CustomControlsComponent,
+  ],
+  imports: [
+    CommonModule,
+    ContentRoutingModule,
+    NgbModule,
+    ThemeModule,
+    ReactiveFormsModule,
+  ],
   exports: [PageNotFoundComponent],
 })
 export class ContentModule {}

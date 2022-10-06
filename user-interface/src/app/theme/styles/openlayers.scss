@@ -3,22 +3,3 @@
   background-color: transparent !important;
   padding: unset !important;
 }
-
-button {
-  font-size: 16px !important;
-  font-weight: 500 !important;
-  margin: 5px !important;
-  cursor: pointer !important;
-  height: 36px !important;
-  width: 36px !important;
-  color: white !important;
-  background-color: rgb(110, 209, 86) !important;
-  box-shadow: black 0 3px 3px !important;
-  &:hover{
-    background-color: rgb(135, 250, 107) !important;
-  }
-}
-
-button:focus {
-  background-color: rgb(135, 250, 107) !important;
-}
