@@ -7,15 +7,14 @@ import {
   EventEmitter,
   ChangeDetectorRef,
 } from '@angular/core';
+import * as proj from 'ol/proj';
 import { View, Feature, Map } from 'ol';
 import { Coordinate } from 'ol/coordinate';
 import { ScaleLine, defaults as DefaultControls } from 'ol/control';
-import proj4 from 'proj4';
 import VectorLayer from 'ol/layer/Vector';
-import Projection from 'ol/proj/Projection';
-import { register } from 'ol/proj/proj4';
-import { get as GetProjection } from 'ol/proj';
-import { Extent } from 'ol/extent';
+// import Projection from 'ol/proj/Projection';
+// import { get as GetProjection } from 'ol/proj';
+// import { Extent } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
 import { OSM, TileWMS, XYZ } from 'ol/source';
 import { SidebarControl } from './custom-controls/sidebar-control';
@@ -27,11 +26,13 @@ import { Layer } from 'ol/layer';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
-  private center: Coordinate = [52.502339682808056, 13.413504442645158];
-  private zoom: number = 8.5;
+  // ol.proj.transform transforms from EPSG:4326 to EPSG:3857, i.e. from [lat, lon] to [x, y], and vice versa
+  // the coordinate system is defined by the map that is being used
+  private center: Coordinate = proj.transform([13.40940990769482, 52.520831598904365], "EPSG:4326", "EPSG:3857"); // Berliner Fernsehturm
+  private zoom: number = 17;
   view: View = new View();
-  projection: Projection | null = null;
-  extent: Extent = [-20037508.34, -20048966.1, 20037508.34, 20048966.1];
+  // projection: Projection | null = null;
+  // extent: Extent = [-180, -90, 180, 90] // [-20037508.34, -20037508.34, 20037508.34, 20037508.34];
   Map: Map | undefined = undefined;
   @Output() mapReady = new EventEmitter<Map>();
 
@@ -47,46 +48,37 @@ export class MapComponent implements AfterViewInit {
   }
 
   private initMap(): void {
-    proj4.defs(
-      'EPSG:3857',
-      '+proj=merc +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +nadgrids=@null +wktext  +no_defs'
-    );
+    this.view = new View({
+      center: this.center,
+      zoom: this.zoom,
+    });
 
-    register(proj4);
-    this.projection = GetProjection('EPSG:3857');
-    if (this.projection !== null) {
-      this.projection.setExtent(this.extent);
-      this.view = new View({
-        center: this.center,
-        zoom: this.zoom,
-        projection: this.projection,
-      });
-      this.Map = new Map({
-        layers: [
-          new TileLayer({
-            source: new XYZ({
-              attributions: [
-                'Powered by Esri',
-                'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community',
-              ],
-              attributionsCollapsible: false,
-              url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-              maxZoom: 24,
-            }),
-          }) /*new TileLayer({
-            source: new TileWMS({
-              url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
-              params: { LAYERS: 'simple', TILED: true },
-              serverType: 'geoserver',
-              // Countries have transparency, so do not fade tiles:
-              transition: 0,
-            }),
-          }),*/,
-        ],
-        target: 'map',
-        view: this.view,
-        controls: DefaultControls().extend([new ScaleLine({})]),
-      });
-    }
+    this.Map = new Map({
+      layers: [
+        new TileLayer({
+          source: new XYZ({
+            // credits
+            attributions: [
+              'Powered by Esri',
+              'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community',
+            ],
+            attributionsCollapsible: false,
+            url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            maxZoom: 24,
+          }),
+        }) /*new TileLayer({
+          source: new TileWMS({
+            url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
+            params: { LAYERS: 'simple', TILED: true },
+            serverType: 'geoserver',
+            // Countries have transparency, so do not fade tiles:
+            transition: 0,
+          }),
+        }),*/,
+      ],
+      target: 'map',
+      view: this.view,
+      controls: DefaultControls().extend([new ScaleLine({})]),
+    });
   }
 }
