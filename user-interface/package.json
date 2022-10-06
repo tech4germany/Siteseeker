@@ -25,6 +25,7 @@
     "@types/ol": "^6.5.3",
     "@types/proj4": "^2.5.2",
     "bootstrap": "^5.2.1",
+    "bootstrap-icons": "^1.9.1",
     "ol": "^7.1.0",
     "proj4": "^2.8.0",
     "rxjs": "~7.5.0",
