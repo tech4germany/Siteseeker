@@ -1,0 +1,38 @@
+.grid-container {
+  display: grid;
+  position: relative;
+  height: 100vh;
+  grid-template-rows: 12vh 83vh 5vh;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
+}
+
+.header {
+  grid-area: header;
+}
+
+.content {
+  grid-area: content;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.background {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  z-index: -1;
+  background-image: url("../../../../assets/Background-Landing.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
