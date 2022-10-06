@@ -7,9 +7,13 @@ import { BaseLayoutComponent } from './layouts/base-layout/base-layout.component
 import { MapLayoutComponent } from './layouts/map-layout/map-layout.component';
 import { MapHeaderComponent } from './components/map-header/map-header.component';
 
+const COMPONENTS = [HeaderComponent, MapHeaderComponent, FooterComponent];
+
+const LAYOUTS = [BaseLayoutComponent, MapLayoutComponent];
+
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, BaseLayoutComponent, MapLayoutComponent, MapHeaderComponent],
+  declarations: [...COMPONENTS, ...LAYOUTS],
   imports: [CommonModule, RouterModule],
-  exports: [HeaderComponent, FooterComponent],
+  exports: [HeaderComponent, FooterComponent, ...LAYOUTS],
 })
 export class ThemeModule {}
