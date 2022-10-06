@@ -3,19 +3,15 @@ img {
   margin-right: 1vw;
   padding: 0.5%;
   padding-bottom: 0%;
-  width: 70px;
-}
-
-h6 {
-  color: white;
+  width: 168px;
 }
 
 .header {
-  background-color: #20203b;
+  background-color: transparent;
 }
 
 .navbar {
-  padding-bottom: 0%;
+  padding: 0%;
 }
 
 .navbar-brand {
@@ -24,29 +20,58 @@ h6 {
 }
 
 .display-5 {
-  color: white;
+  color: black;
   font-size: 1.8rem;
   text-align: center;
 }
 
-p {
-  color: white;
+.user-info {
+  margin-right: 10px;
+  justify-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-self: center;
+
+  div {
+    color: black;
+    margin: 0;
+    text-align: right;
+    font-family: "Open Sans", serif;
+    font-size: 14px;
+  }
+
+  .name {
+    height: 19px;
+    line-height: 19px;
+    font-weight: 400;
+  }
+
+  .organisation {
+    height: 16px;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+
+    color: #000000;
+
+    opacity: 0.5;
+  }
 }
 
+
+
 .avatar {
-  //background-image: url('../../../../assets/Passbild_klein.jpg');
-  width: 40px;
-  height: 40px;
+  background-image: url('../../../../assets/Passbild_klein.jpg');
+  width: 50px;
+  height: 50px;
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 20px;
   cursor: pointer;
-}
-
-.avatar:hover {
-  -webkit-box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
-  box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.86);
 }
 
 i {
