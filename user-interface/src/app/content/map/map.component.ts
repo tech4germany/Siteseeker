@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import * as proj from 'ol/proj';
 import { View, Feature, Map } from 'ol';
-import { Coordinate } from 'ol/coordinate';
+import { Coordinate, createStringXY } from 'ol/coordinate';
 import { ScaleLine, defaults as DefaultControls } from 'ol/control';
 import VectorLayer from 'ol/layer/Vector';
 // import Projection from 'ol/proj/Projection';
@@ -19,6 +19,18 @@ import TileLayer from 'ol/layer/Tile';
 import { OSM, TileWMS, XYZ } from 'ol/source';
 import { SidebarControl } from './custom-controls/sidebar-control';
 import { Layer } from 'ol/layer';
+
+import MousePosition from 'ol/control/MousePosition';
+
+const mousePositionControl = new MousePosition({
+  coordinateFormat: createStringXY(4),
+  projection: 'EPSG:4326',
+  // comment the following two lines to have the mouse position
+  // be placed within the map.
+  // className: 'custom-mouse-position',
+  // target: document.getElementById('mouse-position'),
+});
+
 
 @Component({
   selector: 'app-map',
@@ -31,8 +43,6 @@ export class MapComponent implements AfterViewInit {
   private center: Coordinate = proj.transform([13.40940990769482, 52.520831598904365], "EPSG:4326", "EPSG:3857"); // Berliner Fernsehturm
   private zoom: number = 17;
   view: View = new View();
-  // projection: Projection | null = null;
-  // extent: Extent = [-180, -90, 180, 90] // [-20037508.34, -20037508.34, 20037508.34, 20037508.34];
   Map: Map | undefined = undefined;
   @Output() mapReady = new EventEmitter<Map>();
 
@@ -55,6 +65,7 @@ export class MapComponent implements AfterViewInit {
 
     this.Map = new Map({
       layers: [
+        // source for raster tile managers: https://wiki.openstreetmap.org/wiki/Raster_tile_providers 
         new TileLayer({
           source: new XYZ({
             // credits
@@ -66,7 +77,25 @@ export class MapComponent implements AfterViewInit {
             url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
             maxZoom: 24,
           }),
-        }) /*new TileLayer({
+          visible: false,
+        }),
+        new TileLayer({
+          source: new OSM({
+            // default tile manager from OSM
+            // https://tile.openstreetmap.org/{z}/{x}/{y}.png;
+
+          }),
+          visible: true,
+        }),
+        new TileLayer({
+          source: new OSM({
+            // watercolor map
+            url: "https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
+          }),
+          visible: false,
+        })
+        
+        /*new TileLayer({
           source: new TileWMS({
             url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
             params: { LAYERS: 'simple', TILED: true },
@@ -78,7 +107,8 @@ export class MapComponent implements AfterViewInit {
       ],
       target: 'map',
       view: this.view,
-      controls: DefaultControls().extend([new ScaleLine({})]),
+      controls: DefaultControls().extend([new ScaleLine({})]).extend([mousePositionControl]),
     });
   }
 }
+
