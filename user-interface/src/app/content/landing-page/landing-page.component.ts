@@ -34,11 +34,7 @@ export class LandingPageComponent implements OnInit {
     ]),
   });
 
-  constructor(private mapService: MapService, private router: Router) {
-    this.mapService.getLongitude().subscribe(long => {
-      console.log('Longitude: ' + long);
-    });
-  }
+  constructor(private mapService: MapService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -55,10 +51,11 @@ export class LandingPageComponent implements OnInit {
   }
 
   onSubmit() {
-    this.mapService.setLongitude(this.coordinateForm.get('longitude')?.value);
-    this.mapService.setLatitude(this.coordinateForm.get('latitude')?.value);
+    this.mapService.setCoordinate(
+      this.coordinateForm.get('longitude')?.value,
+      this.coordinateForm.get('latitude')?.value
+    );
     this.mapService.setRadius(this.coordinateForm.get('radius')?.value);
-
     this.router.navigateByUrl('/userspace/map');
   }
 }
