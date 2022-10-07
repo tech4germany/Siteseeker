@@ -16,11 +16,19 @@ import VectorLayer from 'ol/layer/Vector';
 // import { get as GetProjection } from 'ol/proj';
 // import { Extent } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
-import { OSM, TileWMS, XYZ } from 'ol/source';
+import { OSM, TileWMS, XYZ, Vector } from 'ol/source';
 import { SidebarControl } from './custom-controls/sidebar-control';
 import { Layer } from 'ol/layer';
 
 import MousePosition from 'ol/control/MousePosition';
+import { MapService } from '../../core/services/map.service';
+import { coordinates } from 'ol/geom/flat/reverse';
+import { Point } from 'ol/geom';
+import { Icon, Style } from 'ol/style';
+import { LocationService } from '../../core/services/layer-services/location.service';
+import { SatelliteService } from '../../core/services/layer-services/satellite.service';
+import { OpenStreetMapService } from '../../core/services/layer-services/open-street-map.service';
+import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
 
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
@@ -31,30 +39,53 @@ const mousePositionControl = new MousePosition({
   // target: document.getElementById('mouse-position'),
 });
 
-
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
-  // ol.proj.transform transforms from EPSG:4326 to EPSG:3857, i.e. from [lat, lon] to [x, y], and vice versa
+  // ol.proj.transform transforms from EPSG:4326 to EPSG:3857, i.e. from [lon, lat] to [x, y], and vice versa
   // the coordinate system is defined by the map that is being used
-  private center: Coordinate = proj.transform([13.40940990769482, 52.520831598904365], "EPSG:4326", "EPSG:3857"); // Berliner Fernsehturm
+  private center: Coordinate = proj.transform(
+    [13.40940990769482, 52.520831598904365],
+    'EPSG:4326',
+    'EPSG:3857'
+  ); // Berliner Fernsehturm
   private zoom: number = 17;
+  private radius: number = 1;
   view: View = new View();
-  Map: Map | undefined = undefined;
+  map: Map | undefined = undefined;
   @Output() mapReady = new EventEmitter<Map>();
 
-  constructor(private zone: NgZone, private cd: ChangeDetectorRef) {}
+  constructor(
+    private zone: NgZone,
+    private cd: ChangeDetectorRef,
+    private mapService: MapService,
+    private locationService: LocationService,
+    private satelliteService: SatelliteService,
+    private osmService: OpenStreetMapService,
+    private searchAreaService: SearchAreaService
+  ) {
+    this.mapService
+      .getCoordinate()
+      .subscribe((coordinate: Coordinate) => (this.center = coordinate));
+    this.mapService
+      .getRadius()
+      .subscribe((radius: number) => (this.radius = radius));
+  }
 
   ngAfterViewInit(): void {
-    if (!this.Map) {
+    if (!this.map) {
       this.zone.runOutsideAngular(() => this.initMap());
     }
-    setTimeout(() => this.mapReady.emit(this.Map));
+    setTimeout(() => this.mapReady.emit(this.map));
 
-    this.Map?.addControl(new SidebarControl(this.Map));
+    // add layers
+    this.satelliteService.initSatelliteService(this.map);
+    this.osmService.initOSMService(this.map);
+    this.locationService.initLocationService(this.map, this.view);
+    this.searchAreaService.initSearchArea(this.map, this.view);
   }
 
   private initMap(): void {
@@ -62,39 +93,17 @@ export class MapComponent implements AfterViewInit {
       center: this.center,
       zoom: this.zoom,
     });
-
-    this.Map = new Map({
+    this.map = new Map({
       layers: [
-        // source for raster tile managers: https://wiki.openstreetmap.org/wiki/Raster_tile_providers 
-        new TileLayer({
-          source: new XYZ({
-            // credits
-            attributions: [
-              'Powered by Esri',
-              'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community',
-            ],
-            attributionsCollapsible: false,
-            url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            maxZoom: 24,
-          }),
-          visible: false,
-        }),
-        new TileLayer({
-          source: new OSM({
-            // default tile manager from OSM
-            // https://tile.openstreetmap.org/{z}/{x}/{y}.png;
-
-          }),
-          visible: true,
-        }),
+        // source for raster tile managers: https://wiki.openstreetmap.org/wiki/Raster_tile_providers
         new TileLayer({
           source: new OSM({
             // watercolor map
-            url: "https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
+            url: 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
           }),
           visible: false,
-        })
-        
+        }),
+
         /*new TileLayer({
           source: new TileWMS({
             url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
@@ -103,12 +112,11 @@ export class MapComponent implements AfterViewInit {
             // Countries have transparency, so do not fade tiles:
             transition: 0,
           }),
-        }),*/,
+        }),*/
       ],
       target: 'map',
       view: this.view,
-      controls: DefaultControls().extend([new ScaleLine({})]).extend([mousePositionControl]),
+      controls: [],
     });
   }
 }
-

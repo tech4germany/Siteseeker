@@ -1,0 +1,69 @@
+import { Injectable } from '@angular/core';
+import { Vector as VectorLayer } from 'ol/layer';
+import { Vector as VectorSource } from 'ol/source';
+import { MapService } from '../map.service';
+import { Coordinate } from 'ol/coordinate';
+import Map from 'ol/Map';
+import { Feature, View } from 'ol';
+import { Circle, Point } from 'ol/geom';
+import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
+import { METERS_PER_UNIT } from 'ol/proj/Units';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SearchAreaService {
+  private radius: number = 1;
+
+  private coordinate: Coordinate = [];
+
+  constructor(private mapService: MapService) {
+    this.mapService
+      .getRadius()
+      .subscribe((newRadius: number) => (this.radius = newRadius));
+    this.mapService
+      .getCoordinate()
+      .subscribe(
+        (newCoordinate: Coordinate) => (this.coordinate = newCoordinate)
+      );
+  }
+
+  public initSearchArea(map: Map | undefined, view: View) {
+    const pinFeature = new Feature({
+      geometry: new Point(this.coordinate),
+    });
+    pinFeature.setStyle(
+      new Style({
+        image: new Icon({
+          anchor: [0.5, 1],
+          src: 'http://cdn.mapmarker.io/api/v1/pin?text=P&size=50&hoffset=1',
+        }),
+      })
+    );
+
+    const resolutionAtEquator = view.getResolution() ?? 1;
+    const pointResolution = view.getProjection().getPointResolutionFunc()(
+      resolutionAtEquator,
+      this.coordinate
+    );
+    const resolutionFactor = resolutionAtEquator / (pointResolution ?? 1);
+    const radius: number = (this.radius / METERS_PER_UNIT.m) * resolutionFactor;
+
+    const circleFeature = new Feature({
+      geometry: new Circle(this.coordinate, radius),
+    });
+
+    const searchCoordinateLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [pinFeature],
+      }),
+    });
+    const searchAreaLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [circleFeature],
+      }),
+    });
+    map?.addLayer(searchAreaLayer);
+    map?.addLayer(searchCoordinateLayer);
+  }
+}
