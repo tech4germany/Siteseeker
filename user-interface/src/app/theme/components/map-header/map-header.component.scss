@@ -1,0 +1,137 @@
+.header-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  margin-top: 3vh;
+  padding: 5px 10px;
+  margin-left: 1vw;
+
+  p {
+    margin: 0;
+
+    .pencilIcon {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .pencilIcon:hover {
+      color: #004B76;
+    }
+  }
+}
+
+.inverted {
+  mix-blend-mode: darken;
+}
+
+.header-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: 3vh;
+  padding: 5px 10px;
+  margin-right: 1vw;
+  width: 25%;
+}
+
+.header-right:hover {
+  -webkit-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.5);
+}
+
+img {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  padding: 0.5%;
+  padding-bottom: 0%;
+  width: 168px;
+}
+
+.header {
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+}
+
+
+.display-1 {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 38px;
+  color: #000000;
+  margin-bottom: 0;
+}
+
+.display-4 {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+
+  color: #000000;
+}
+
+.coordinate-display {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #576164;
+}
+
+.user-info {
+  margin-right: 10px;
+  justify-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-self: center;
+
+  div {
+    color: black;
+    margin: 0;
+    text-align: right;
+    font-family: "Open Sans", serif;
+    font-size: 14px;
+  }
+
+  .name {
+    height: 19px;
+    line-height: 19px;
+    font-weight: 400;
+  }
+
+  .organisation {
+    height: 16px;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+
+    color: #000000;
+
+    opacity: 0.5;
+  }
+}
+
+
+.avatar {
+  background-image: url('../../../../assets/Passbild_klein.jpg');
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+

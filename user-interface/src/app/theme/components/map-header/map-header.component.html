@@ -1,1 +1,26 @@
-<p>map-header works!</p>
+<div class="header-left card">
+  <p class="coordinate-display">
+    Koordinaten: <strong>{{ this.shortenDecimal(this.coordinate[0]) }}, {{this.shortenDecimal(this.coordinate[1])}}</strong> | Radius: <strong>{{this.radius}} Meter</strong>
+    <i class="bi bi-pencil-fill pencilIcon" (click)="navigateToLandingpage()"></i>
+  </p>
+  <h1 class="display-1">
+    {{this.cityName}}
+  </h1>
+  <h4 class="display-4">
+    {{this.state}}
+  </h4>
+</div>
+
+<div class="header-right card">
+  <div class="d-flex">
+    <div class="user-info">
+      <div class="name">
+        Valentin Hartig
+      </div>
+      <div class="organisation">
+        Tech4Germany
+      </div>
+    </div>
+    <div class="avatar border border-2 border-white"></div>
+  </div>
+</div>
