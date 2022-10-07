@@ -6,6 +6,7 @@ import { TestMapComponent } from './test-map/test-map.component';
 import { MapComponent } from './map/map.component';
 import { BaseLayoutComponent } from '../theme/layouts/base-layout/base-layout.component';
 import { MapLayoutComponent } from '../theme/layouts/map-layout/map-layout.component';
+import { MapOverlayComponent } from './map-overlay/map-overlay.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landingspace', pathMatch: 'full' },
@@ -18,7 +19,16 @@ const routes: Routes = [
     path: 'userspace',
     component: MapLayoutComponent,
     children: [
-      { path: 'map', component: MapComponent },
+      {
+        path: '',
+        component: MapOverlayComponent,
+        children: [
+          {
+            path: 'map',
+            component: MapComponent,
+          },
+        ],
+      },
       { path: '', redirectTo: 'map', pathMatch: 'full' },
     ],
   },

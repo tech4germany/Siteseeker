@@ -9,6 +9,10 @@ import { TestMapComponent } from './test-map/test-map.component';
 import { MapComponent } from './map/map.component';
 import { CustomControlsComponent } from './map/custom-controls/custom-controls.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MapOverlayComponent } from './map-overlay/map-overlay.component';
+import { SidebarLeftComponent } from './map-overlay/components/sidebar-left/sidebar-left.component';
+import { LayersMenuComponent } from './map-overlay/components/layers-menu/layers-menu.component';
+import { DataBasketComponent } from './map-overlay/components/data-basket/data-basket.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     TestMapComponent,
     MapComponent,
     CustomControlsComponent,
+    MapOverlayComponent,
+    SidebarLeftComponent,
+    LayersMenuComponent,
+    DataBasketComponent,
   ],
   imports: [
     CommonModule,
