@@ -1,0 +1,42 @@
+<div class="card details-card">
+  <div class="card-body">
+    <h5 class="card-title"><i class="bi bi-chevron-left backButton" (click)="closeDetail()"></i> Markierungen: 1</h5>
+    <div *ngFor="let num of [1,2,3]" class="info-container">
+      <hr>
+      <h5>Flurstücknummer 1122</h5>
+      <div class="address">
+        <h6>Adresse</h6>
+        <div class="d-flex">
+          <p class="streetName">Gutzmannstraße</p>
+          <p class="streetNumber">43A</p>
+        </div>
+        <div class="d-flex">
+          <p class="postcode">15755</p>
+          <p class="cityName">Teupitz</p>
+        </div>
+      </div>
+      <div class="extraInformation">
+        <h6>Zusatzinformationen</h6>
+        <ul>
+          <li>
+            Öffentliche Liegenschaft (Kommune)
+          </li>
+          <li>
+            Schule
+          </li>
+          <li>
+            <a href="www.teupitz.de">www.teupitz.de</a>
+          </li>
+        </ul>
+      </div>
+      <div class="infrastructure">
+        <h6>Vorhandene Infrastruktur</h6>
+        <div class="d-flex">
+          <span class="badge rounded-pill text-bg-success"><i class="bi bi-check-circle"></i> Strom</span>
+          <span class="badge rounded-pill text-bg-danger"><i class="bi bi-x-circle"></i> Glasfaser</span>
+          <span class="badge rounded-pill text-bg-success"><i class="bi bi-check-circle"></i> Zufahrt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

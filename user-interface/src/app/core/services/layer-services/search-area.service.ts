@@ -51,6 +51,11 @@ export class SearchAreaService {
 
     const circleFeature = new Feature({
       geometry: new Circle(this.coordinate, radius),
+      style: new Style({
+        fill: new Fill({
+          color: 'rgba(0,0,0,0)',
+        }),
+      }),
     });
 
     const searchCoordinateLayer = new VectorLayer({

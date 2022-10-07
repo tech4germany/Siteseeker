@@ -5,7 +5,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from '../theme/theme.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { TestMapComponent } from './test-map/test-map.component';
 import { MapComponent } from './map/map.component';
 import { CustomControlsComponent } from './map/custom-controls/custom-controls.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,18 +12,23 @@ import { MapOverlayComponent } from './map-overlay/map-overlay.component';
 import { SidebarLeftComponent } from './map-overlay/components/sidebar-left/sidebar-left.component';
 import { LayersMenuComponent } from './map-overlay/components/layers-menu/layers-menu.component';
 import { DataBasketComponent } from './map-overlay/components/data-basket/data-basket.component';
+import { OverviewMenuComponent } from './map-overlay/components/sidebar-left/overview-menu/overview-menu.component';
+import { LocalInfoMenuComponent } from './map-overlay/components/sidebar-left/local-info-menu/local-info-menu.component';
+import { LocationDetailsComponent } from './map-overlay/components/sidebar-left/overview-menu/location-details/location-details.component';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     LandingPageComponent,
-    TestMapComponent,
     MapComponent,
     CustomControlsComponent,
     MapOverlayComponent,
     SidebarLeftComponent,
     LayersMenuComponent,
     DataBasketComponent,
+    OverviewMenuComponent,
+    LocalInfoMenuComponent,
+    LocationDetailsComponent,
   ],
   imports: [
     CommonModule,
