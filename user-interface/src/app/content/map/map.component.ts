@@ -30,6 +30,7 @@ import { SatelliteService } from '../../core/services/layer-services/satellite.s
 import { OpenStreetMapService } from '../../core/services/layer-services/open-street-map.service';
 import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
 import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
+import { WmsService } from '../../core/services/layer-services/wms.service';
 
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
@@ -67,7 +68,8 @@ export class MapComponent implements AfterViewInit {
     private satelliteService: SatelliteService,
     private osmService: OpenStreetMapService,
     private searchAreaService: SearchAreaService,
-    private courtLayerService: CourtLayerService
+    private courtLayerService: CourtLayerService,
+    private wmsService: WmsService
   ) {
     this.mapService
       .getCoordinate()
@@ -87,8 +89,10 @@ export class MapComponent implements AfterViewInit {
     this.satelliteService.initSatelliteService(this.map);
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
+    this.wmsService.initWMSService(this.map);
+    //this.courtLayerService.initCourtLayerService(this.map, this.view);
+
     this.searchAreaService.initSearchArea(this.map, this.view);
-    this.courtLayerService.initCourtLayerService(this.map, this.view);
   }
 
   private initMap(): void {
@@ -106,16 +110,6 @@ export class MapComponent implements AfterViewInit {
           }),
           visible: false,
         }),
-
-        /*new TileLayer({
-          source: new TileWMS({
-            url: 'https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis',
-            params: { LAYERS: 'simple', TILED: true },
-            serverType: 'geoserver',
-            // Countries have transparency, so do not fade tiles:
-            transition: 0,
-          }),
-        }),*/
       ],
       target: 'map',
       view: this.view,
