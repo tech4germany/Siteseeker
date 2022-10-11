@@ -50,7 +50,7 @@ export class MapComponent implements AfterViewInit {
   // ol.proj.transform transforms from EPSG:4326 to EPSG:3857, i.e. from [lon, lat] to [x, y], and vice versa
   // the coordinate system is defined by the map that is being used
   private center: Coordinate = proj.transform(
-    [13.40940990769482, 52.520831598904365],
+    [0.0, 0.0],
     'EPSG:4326',
     'EPSG:3857'
   ); // Berliner Fernsehturm
@@ -58,7 +58,6 @@ export class MapComponent implements AfterViewInit {
   private radius: number = 1;
   view: View = new View();
   map: Map | undefined = undefined;
-  @Output() mapReady = new EventEmitter<Map>();
 
   constructor(
     private zone: NgZone,
@@ -83,15 +82,12 @@ export class MapComponent implements AfterViewInit {
     if (!this.map) {
       this.zone.runOutsideAngular(() => this.initMap());
     }
-    setTimeout(() => this.mapReady.emit(this.map));
-
     // add layers
     this.satelliteService.initSatelliteService(this.map);
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
     this.wmsService.initWMSService(this.map);
     //this.courtLayerService.initCourtLayerService(this.map, this.view);
-
     this.searchAreaService.initSearchArea(this.map, this.view);
   }
 
@@ -101,16 +97,7 @@ export class MapComponent implements AfterViewInit {
       zoom: this.zoom,
     });
     this.map = new Map({
-      layers: [
-        // source for raster tile managers: https://wiki.openstreetmap.org/wiki/Raster_tile_providers
-        new TileLayer({
-          source: new OSM({
-            // watercolor map
-            url: 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
-          }),
-          visible: false,
-        }),
-      ],
+      layers: [],
       target: 'map',
       view: this.view,
       controls: [],

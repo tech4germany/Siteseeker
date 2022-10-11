@@ -8,9 +8,9 @@ import Map from 'ol/Map';
   providedIn: 'root',
 })
 export class WmsService {
-  rlpWMS_ALKISLiegenschaften: TileLayer<any> = new TileLayer({
+  rlpWMS_ALKIS: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
+      url: '/rlp/kataster',
       params: { LAYERS: 'WMS_RP_ALKIS_Liegenschaften', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
@@ -21,7 +21,7 @@ export class WmsService {
 
   rlpWMS_Nutzung: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
+      url: '/rlp/kataster',
       params: { LAYERS: 'Nutzung', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
@@ -32,7 +32,7 @@ export class WmsService {
 
   rlpWMS_GebaeudeBauwerke: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
+      url: '/rlp/kataster',
       params: { LAYERS: 'GebaeudeBauwerke', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
@@ -43,7 +43,7 @@ export class WmsService {
 
   rlpWMS_Flurstueck: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
+      url: '/rlp/kataster',
       params: { LAYERS: 'Flurstueck', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
@@ -54,8 +54,13 @@ export class WmsService {
 
   rlpWMS_Lagebezeichnungen: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
-      params: { LAYERS: 'Lagebezeichnungen', TILED: true },
+      url: '/rlp/kataster',
+      params: {
+        LAYERS: 'Lagebezeichnungen',
+        TILED: true,
+        OVERLAY: true,
+        TRANSPARENT: true,
+      },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
       transition: 0,
@@ -65,7 +70,7 @@ export class WmsService {
 
   rlpWMS_Hintergrund: TileLayer<any> = new TileLayer({
     source: new TileWMS({
-      url: '/rlp',
+      url: '/rlp/kataster',
       params: { LAYERS: 'Hintergrund', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
@@ -74,44 +79,62 @@ export class WmsService {
     visible: false,
   });
 
-  constructor(private mapService: MapService) {}
+  rlpWMS_Umwelt: TileLayer<any> = new TileLayer({
+    source: new TileWMS({
+      url: '/rlp/umwelt',
+      params: { LAYERS: 'Hintergrund', TILED: true },
+      serverType: 'geoserver',
+      // Countries have transparency, so do not fade tiles:
+      transition: 0,
+    }),
+    visible: false,
+  });
+
+  berlinWMS_ALKIS: TileLayer<any> = new TileLayer({
+    source: new TileWMS({
+      url: '/berlin/kataster',
+      params: { LAYERS: 'wmsk_alkis', TILED: true },
+      serverType: 'geoserver',
+      // Countries have transparency, so do not fade tiles:
+      transition: 0,
+    }),
+    visible: false,
+  });
+
+  constructor() {}
 
   public initWMSService(map: Map | undefined) {
-    map?.addLayer(this.rlpWMS_ALKISLiegenschaften);
+    map?.addLayer(this.rlpWMS_ALKIS);
     map?.addLayer(this.rlpWMS_Nutzung);
     map?.addLayer(this.rlpWMS_GebaeudeBauwerke);
     map?.addLayer(this.rlpWMS_Lagebezeichnungen);
     map?.addLayer(this.rlpWMS_Flurstueck);
     map?.addLayer(this.rlpWMS_Hintergrund);
+    //    map?.addLayer(this.berlinWMS_ALKIS);
   }
 
-  public toggleRLP_ALKIS() {
-    this.rlpWMS_ALKISLiegenschaften.setVisible(
-      !this.rlpWMS_ALKISLiegenschaften.getVisible()
-    );
+  public toggleRLP_ALKIS(toggle: boolean) {
+    this.rlpWMS_ALKIS.setVisible(toggle);
+    //    this.berlinWMS_ALKIS.setVisible(toggle);
   }
 
-  public toggleRLP_Nutzung() {
+  public toggleRLP_Nutzung(toggle: boolean) {
     this.rlpWMS_Nutzung.setVisible(!this.rlpWMS_Nutzung.getVisible());
   }
 
-  public toggleRLP_GebaeudeBauwerke() {
-    this.rlpWMS_GebaeudeBauwerke.setVisible(
-      !this.rlpWMS_GebaeudeBauwerke.getVisible()
-    );
+  public toggleRLP_GebaeudeBauwerke(toggle: boolean) {
+    this.rlpWMS_GebaeudeBauwerke.setVisible(toggle);
   }
 
-  public toggleRLP_Lagebzeichnungen() {
-    this.rlpWMS_Lagebezeichnungen.setVisible(
-      !this.rlpWMS_Lagebezeichnungen.getVisible()
-    );
+  public toggleRLP_Lagebzeichnungen(toggle: boolean) {
+    this.rlpWMS_Lagebezeichnungen.setVisible(toggle);
   }
 
-  public toggleRLP_Flurstuecke() {
-    this.rlpWMS_Flurstueck.setVisible(!this.rlpWMS_Flurstueck.getVisible());
+  public toggleRLP_Flurstuecke(toggle: boolean) {
+    this.rlpWMS_Flurstueck.setVisible(toggle);
   }
 
-  public toggleRLP_Hintergrund() {
-    this.rlpWMS_Hintergrund.setVisible(!this.rlpWMS_Hintergrund.getVisible());
+  public toggleRLP_Hintergrund(toggle: boolean) {
+    this.rlpWMS_Hintergrund.setVisible(toggle);
   }
 }

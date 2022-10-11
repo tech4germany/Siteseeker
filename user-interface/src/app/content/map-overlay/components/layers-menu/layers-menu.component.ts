@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../../../core/services/map.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MapService } from 'src/app/core/services/map.service';
 
 @Component({
   selector: 'app-layers-menu',
@@ -7,11 +8,35 @@ import { MapService } from '../../../../core/services/map.service';
   styleUrls: ['./layers-menu.component.scss'],
 })
 export class LayersMenuComponent implements OnInit {
+  isMenuOpen: boolean = false;
+
+  baseMapControl = new FormGroup({
+    map: new FormControl('base'),
+  });
+
+  extendedMapControl = new FormGroup({
+    liegenschaften: new FormControl(false),
+    nutzung: new FormControl(false),
+    gebaeude: new FormControl(false),
+    lagebezeichnung: new FormControl(false),
+    flurstuecke: new FormControl(false),
+    hintergrund: new FormControl(false),
+  });
+
   constructor(private mapService: MapService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.baseMapControl.statusChanges.subscribe(() => {
+      this.mapService.baseMapControl(this.baseMapControl.value.map);
+    });
 
-  public toggleSatellite() {
-    this.mapService.switchLayer();
+    this.extendedMapControl.statusChanges.subscribe(() => {
+      console.log(this.extendedMapControl);
+      this.mapService.extendedMapControl(this.extendedMapControl.value);
+    });
+  }
+
+  public toggleLayersButton() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

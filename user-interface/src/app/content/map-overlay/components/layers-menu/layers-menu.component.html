@@ -1,3 +1,85 @@
-<button type="button" class="btn btn-light layer-button" (click)="toggleSatellite()">
-  <i class="bi bi-layers-fill"></i>
-</button>
+<div class="layer-menu">
+  <div *ngIf="isMenuOpen" class="card layers-card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Informations-Ebenen</h5>
+      <form [formGroup]="extendedMapControl">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="liegenschaften" id="liegenschaft">
+          <label class="form-check-label" for="liegenschaft">
+            Liegenschaften
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="nutzung" id="nutzung">
+          <label class="form-check-label" for="nutzung">
+            Nutzung
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="gebaeude" id="gebaeude">
+          <label class="form-check-label" for="gebaeude">
+            Gebaeude
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="lagebezeichnung" id="lagebezeichnung">
+          <label class="form-check-label" for="lagebezeichnung">
+            Lagebezeichnung
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="flurstuecke" id="flurstuecke">
+          <label class="form-check-label" for="flurstuecke">
+            Flurstuecke
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="hintergrund" id="hintergrund">
+          <label class="form-check-label" for="hintergrund">
+            Hintergrund
+          </label>
+        </div>
+
+      </form>
+
+
+      <h5 class="card-title">Karten-Stil</h5>
+      <form [formGroup]="baseMapControl">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="baseMap" value="base">
+          <label class="form-check-label" for="baseMap">
+            Basis Karte
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="satelliteMap" value="satellite">
+          <label class="form-check-label" for="satelliteMap">
+            Satelliten Karte
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="topoMap" value="topo">
+          <label class="form-check-label" for="topoMap">
+            Topografische Karte
+          </label>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+
+  <button type="button" class="btn btn-light layer-button" (click)="toggleLayersButton()">
+    <i class="bi bi-layers-fill"></i>
+  </button>
+</div>
+
+

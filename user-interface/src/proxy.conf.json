@@ -3,7 +3,16 @@
     "target": "https://geo5.service24.rlp.de/wms/liegenschaften_rp.fcgi",
     "secure": false,
     "pathRewrite": {
-      "^/rlp": ""
+      "^/rlp/kataster": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/berlin/kataster": {
+    "target": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_alkis?request=getcapabilities&service=wms&version=1.3.0",
+    "secure": false,
+    "pathRewrite": {
+      "^/berlin/kataster": ""
     },
     "changeOrigin": true,
     "logLevel": "debug"
@@ -12,7 +21,7 @@
     "target": "https://geo5.service24.rlp.de/wms/liegenschaften_rp.fcgi",
     "secure": false,
     "pathRewrite": {
-      "^/rlp": ""
+      "^/rlp/umwelt": ""
     },
     "changeOrigin": true,
     "logLevel": "debug"

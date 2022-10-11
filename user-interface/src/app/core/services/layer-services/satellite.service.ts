@@ -24,17 +24,13 @@ export class SatelliteService {
     visible: false,
   });
 
-  constructor(private mapService: MapService) {
-    this.mapService.getSatelliteSwitch().subscribe((ss: boolean) => {
-      this.satelliteLayer.setVisible(ss);
-    });
-  }
+  constructor() {}
 
   public initSatelliteService(map: Map | undefined) {
     map?.addLayer(this.satelliteLayer);
   }
 
-  public toggleSatelliteLayer() {
-    this.satelliteLayer.setVisible(!this.satelliteLayer.getVisible());
+  public toggleSatelliteLayer(toggle: boolean) {
+    this.satelliteLayer.setVisible(toggle);
   }
 }

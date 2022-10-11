@@ -16,17 +16,13 @@ export class OpenStreetMapService {
     visible: false,
   });
 
-  constructor(private mapService: MapService) {
-    this.mapService.getSatelliteSwitch().subscribe((ss: boolean) => {
-      this.osmLayer.setVisible(!ss);
-    });
-  }
+  constructor() {}
 
   public initOSMService(map: Map | undefined) {
     map?.addLayer(this.osmLayer);
   }
 
-  public toggleOSMLayer() {
-    this.osmLayer.setVisible(!this.osmLayer.getVisible());
+  public toggleOSMLayer(toggle: boolean) {
+    this.osmLayer.setVisible(toggle);
   }
 }
