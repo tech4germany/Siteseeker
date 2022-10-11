@@ -24,7 +24,6 @@ export class OpenStreetMapService {
 
   public initOSMService(map: Map | undefined) {
     map?.addLayer(this.osmLayer);
-    console.log(map?.getLayers());
   }
 
   public toggleOSMLayer() {

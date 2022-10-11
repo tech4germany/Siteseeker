@@ -5,7 +5,6 @@ import * as proj from 'ol/proj';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { GeocodingService } from './geocoding.service';
 
 @Injectable({
   providedIn: 'root',
