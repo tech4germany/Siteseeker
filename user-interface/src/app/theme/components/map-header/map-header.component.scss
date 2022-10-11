@@ -8,9 +8,9 @@
   padding: 5px 10px;
   margin-left: 1vw;
 
-  p {
-    margin: 0;
+  text-shadow: 0 0px 6px white;
 
+  p {
     .pencilIcon {
       margin-left: 10px;
       cursor: pointer;
@@ -58,16 +58,20 @@ img {
 
 
 .display-1 {
+  width: min-content;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
   line-height: 38px;
   color: #000000;
-  margin-bottom: 0;
+  margin-bottom: 4px;
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .display-4 {
+  width: min-content;
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 400;
@@ -76,6 +80,9 @@ img {
   /* identical to box height */
 
   color: #000000;
+
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .coordinate-display {
@@ -85,7 +92,11 @@ img {
   font-size: 16px;
   line-height: 22px;
 
-  color: #576164;
+  color: #000000;
+
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
 }
 
 .user-info {
