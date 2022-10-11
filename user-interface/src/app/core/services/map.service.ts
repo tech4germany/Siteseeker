@@ -11,11 +11,7 @@ import { environment } from '../../../environments/environment';
 })
 export class MapService {
   coordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject<Coordinate>(
-    proj.transform(
-      [13.40940990769482, 52.520831598904365],
-      'EPSG:4326',
-      'EPSG:3857'
-    )
+    proj.transform([7.74005, 49.43937], 'EPSG:4326', 'EPSG:3857')
   );
   inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject([
     13.40940990769482, 52.520831598904365,
