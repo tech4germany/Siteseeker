@@ -29,6 +29,7 @@ import { LocationService } from '../../core/services/layer-services/location.ser
 import { SatelliteService } from '../../core/services/layer-services/satellite.service';
 import { OpenStreetMapService } from '../../core/services/layer-services/open-street-map.service';
 import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
+import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
 
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
@@ -52,7 +53,7 @@ export class MapComponent implements AfterViewInit {
     'EPSG:4326',
     'EPSG:3857'
   ); // Berliner Fernsehturm
-  private zoom: number = 17;
+  private zoom: number = 15;
   private radius: number = 1;
   view: View = new View();
   map: Map | undefined = undefined;
@@ -65,7 +66,8 @@ export class MapComponent implements AfterViewInit {
     private locationService: LocationService,
     private satelliteService: SatelliteService,
     private osmService: OpenStreetMapService,
-    private searchAreaService: SearchAreaService
+    private searchAreaService: SearchAreaService,
+    private courtLayerService: CourtLayerService
   ) {
     this.mapService
       .getCoordinate()
@@ -86,6 +88,7 @@ export class MapComponent implements AfterViewInit {
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
+    this.courtLayerService.initCourtLayerService(this.map, this.view);
   }
 
   private initMap(): void {
