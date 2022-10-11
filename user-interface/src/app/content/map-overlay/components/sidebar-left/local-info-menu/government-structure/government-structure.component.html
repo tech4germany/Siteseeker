@@ -1,0 +1,26 @@
+<div class="card details-card">
+  <div class="card-body">
+    <h5 class="card-title" (click)="closeGovernment()">
+      <i class="bi bi-chevron-left backButton"></i>
+      Lokale Verwaltung
+    </h5>
+    <div class="info-container">
+      <hr>
+      <h5 *ngIf="address.Block !== ''">{{address.Block}}</h5>
+      <h5 *ngIf="address.Sector !== ''">{{address.Sector}}</h5>
+      <h5 *ngIf="address.Neighborhood !== ''">{{address.Neighborhood}}</h5>
+      <h5 *ngIf="address.District !== ''">{{address.District}}</h5>
+      <div *ngIf="address.City !== ''">
+        <h5>{{address.City}}</h5>
+        <h6>Amtsgericht</h6>
+        <p>{{this.court?.fields?.gericht}}</p>
+        <p>{{this.court?.fields?.e_mail}}</p>
+        <p>{{this.court?.fields?.telefon}}</p>
+        <p>{{this.court?.fields?.webseite}}</p>
+      </div>
+      <h5 *ngIf="address.MetroArea !== ''">{{address.MetroArea}}</h5>
+      <h5 *ngIf="address.Subregion !== ''">{{address.Subregion}}</h5>
+      <h5 *ngIf="address.Region !== ''">{{address.Region}}</h5>
+    </div>
+  </div>
+</div>

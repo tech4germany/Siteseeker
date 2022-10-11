@@ -1,7 +1,12 @@
 <div class="menu-right">
-  <div *ngIf="!this.displayDetails">
+  <div *ngIf="!this.displayDetails && ! this.displayGovernment && !this.displayInfrastructure">
     <app-overview-menu></app-overview-menu>
     <app-local-info-menu></app-local-info-menu>
   </div>
-  <app-location-details *ngIf="this.displayDetails"></app-location-details>
+  <app-location-details
+    *ngIf="this.displayDetails && !this.displayGovernment && !this.displayInfrastructure"></app-location-details>
+  <app-government-structure
+    *ngIf="!this.displayDetails && this.displayGovernment && !this.displayInfrastructure"></app-government-structure>
+  <app-infrastructure-information
+    *ngIf="!this.displayDetails && !this.displayGovernment && this.displayInfrastructure"></app-infrastructure-information>
 </div>

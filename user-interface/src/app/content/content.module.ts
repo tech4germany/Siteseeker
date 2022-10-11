@@ -15,6 +15,8 @@ import { DataBasketComponent } from './map-overlay/components/data-basket/data-b
 import { OverviewMenuComponent } from './map-overlay/components/sidebar-left/overview-menu/overview-menu.component';
 import { LocalInfoMenuComponent } from './map-overlay/components/sidebar-left/local-info-menu/local-info-menu.component';
 import { LocationDetailsComponent } from './map-overlay/components/sidebar-left/overview-menu/location-details/location-details.component';
+import { GovernmentStructureComponent } from './map-overlay/components/sidebar-left/local-info-menu/government-structure/government-structure.component';
+import { InfrastructureInformationComponent } from './map-overlay/components/sidebar-left/local-info-menu/infrastructure-information/infrastructure-information.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { LocationDetailsComponent } from './map-overlay/components/sidebar-left/
     OverviewMenuComponent,
     LocalInfoMenuComponent,
     LocationDetailsComponent,
+    GovernmentStructureComponent,
+    InfrastructureInformationComponent,
   ],
   imports: [
     CommonModule,
