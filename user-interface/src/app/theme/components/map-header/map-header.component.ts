@@ -3,6 +3,7 @@ import { MapService } from '../../../core/services/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { GeocodingService } from '../../../core/services/geocoding.service';
 import { Router } from '@angular/router';
+import { Address } from '../../../core/models/Address';
 
 @Component({
   selector: 'app-map-header',
@@ -12,8 +13,30 @@ import { Router } from '@angular/router';
 export class MapHeaderComponent implements OnInit {
   public coordinate: Coordinate = [0, 0];
   public radius: number = 0;
-  public cityName: string = '';
-  public state: string = '';
+  public address: Address = new Address(
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  );
 
   constructor(
     private mapService: MapService,
@@ -27,11 +50,8 @@ export class MapHeaderComponent implements OnInit {
       .getRadius()
       .subscribe((radius: number) => (this.radius = radius));
     this.geocodingService
-      .getCityName()
-      .subscribe((name: string) => (this.cityName = name));
-    this.geocodingService
-      .getStateName()
-      .subscribe((name: string) => (this.state = name));
+      .getMarkerAddress()
+      .subscribe((address: Address) => (this.address = address));
   }
 
   ngOnInit(): void {}
