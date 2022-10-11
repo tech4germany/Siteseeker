@@ -10,12 +10,14 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class MapService {
+  baseCoordinate: Coordinate = [7.74005, 49.43937];
+
   coordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject<Coordinate>(
-    proj.transform([7.74005, 49.43937], 'EPSG:4326', 'EPSG:3857')
+    proj.transform(this.baseCoordinate, 'EPSG:4326', 'EPSG:3857')
   );
-  inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject([
-    13.40940990769482, 52.520831598904365,
-  ]);
+  inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject(
+    this.baseCoordinate
+  );
   radius$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
 
   satelliteSwitch: boolean = false;

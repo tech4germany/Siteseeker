@@ -1,5 +1,14 @@
 {
-  "/rlp": {
+  "/rlp/kataster": {
+    "target": "https://geo5.service24.rlp.de/wms/liegenschaften_rp.fcgi",
+    "secure": false,
+    "pathRewrite": {
+      "^/rlp": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/rlp/umwelt": {
     "target": "https://geo5.service24.rlp.de/wms/liegenschaften_rp.fcgi",
     "secure": false,
     "pathRewrite": {
