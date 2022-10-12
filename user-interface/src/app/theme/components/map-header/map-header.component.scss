@@ -37,11 +37,6 @@
   width: 25%;
 }
 
-.header-right:hover {
-  -webkit-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.5);
-}
-
 img {
   margin-left: 1vw;
   margin-right: 1vw;
@@ -137,7 +132,7 @@ img {
 
 
 .avatar {
-  background-image: url('../../../../assets/Passbild_klein.jpg');
+  background-image: url('../../../../assets/sticker.png');
   width: 50px;
   height: 50px;
   background-size: cover;

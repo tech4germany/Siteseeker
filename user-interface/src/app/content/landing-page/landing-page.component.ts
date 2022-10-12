@@ -30,6 +30,7 @@ export class LandingPageComponent implements OnInit {
     radius: new FormControl(null, [
       Validators.required,
       Validators.min(1),
+1000      Validators.max(1000),
       Validators.pattern('[0-9]+'),
     ]),
   });
