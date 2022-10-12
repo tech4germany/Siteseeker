@@ -1,7 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-./src/environments/*
-environment.prod.ts
-environment.ts
+/src/environments/api-keys.ts
 
 # Compiled output
 /dist/*
@@ -112,3 +110,4 @@ node_modules/
 # dotenv environment variables file
 .env
 
+/src/environments/api-keys.ts
