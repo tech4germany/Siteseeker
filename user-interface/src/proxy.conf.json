@@ -25,5 +25,15 @@
     },
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/rlp/wfs": {
+    "target": "https://geo5.service24.rlp.de/wfs/verwaltungsgrenzen_rp.fcgi",
+    "secure": false,
+    "pathRewrite": {
+      "^/rlp/wfs": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }
+

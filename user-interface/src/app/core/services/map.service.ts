@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Coordinate } from 'ol/coordinate';
 import * as proj from 'ol/proj';
@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { WmsService } from './layer-services/wms.service';
 import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
+import { Map } from 'ol';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,8 @@ import { OpenStreetMapService } from './layer-services/open-street-map.service';
 export class MapService {
   // Set base coords for initialisation of map
   baseCoordinate: Coordinate = [7.74005, 49.43937];
+  baseZoom: number = 15.5;
+  baseRadius: number = 1000;
 
   coordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject<Coordinate>(
     proj.transform(this.baseCoordinate, 'EPSG:4326', 'EPSG:3857')
@@ -20,7 +23,12 @@ export class MapService {
   inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject(
     this.baseCoordinate
   );
-  radius$: BehaviorSubject<number> = new BehaviorSubject<number>(1000);
+  radius$: BehaviorSubject<number> = new BehaviorSubject<number>(
+    this.baseRadius
+  );
+  zoom$: BehaviorSubject<number> = new BehaviorSubject<number>(this.baseZoom);
+
+  map: Map | undefined = undefined;
 
   constructor(
     private httpClient: HttpClient,
@@ -28,6 +36,34 @@ export class MapService {
     private satelliteService: SatelliteService,
     private osmService: OpenStreetMapService
   ) {
+    // Load attributes from local storage
+    if (localStorage.getItem('zoom')) {
+      this.baseZoom = JSON.parse(localStorage.getItem('zoom')!);
+      this.zoom$.next(this.baseZoom);
+    }
+    if (localStorage.getItem('coordinate')) {
+      this.baseCoordinate = JSON.parse(localStorage.getItem('coordinate')!);
+      this.inputCoordinate$.next(this.baseCoordinate);
+      this.coordinate$.next(
+        proj.transform(this.baseCoordinate, 'EPSG:4326', 'EPSG:3857')
+      );
+    }
+    if (localStorage.getItem('radius')) {
+      this.baseRadius = JSON.parse(localStorage.getItem('radius')!);
+      this.radius$.next(this.baseRadius);
+    }
+
+    // Save attributes in local storage
+    this.zoom$.subscribe(zoom =>
+      localStorage.setItem('zoom', JSON.stringify(zoom))
+    );
+    this.radius$.subscribe(radius =>
+      localStorage.setItem('radius', JSON.stringify(radius))
+    );
+    this.inputCoordinate$.subscribe(coord =>
+      localStorage.setItem('coordinate', JSON.stringify(coord))
+    );
+    // Set OSM as default base layer
     this.osmService.toggleOSMLayer(true);
   }
 
@@ -53,6 +89,14 @@ export class MapService {
 
   public getRadius(): BehaviorSubject<number> {
     return this.radius$;
+  }
+
+  public setZoom(zoom: number) {
+    this.zoom$.next(zoom);
+  }
+
+  public getZoom(): BehaviorSubject<number> {
+    return this.zoom$;
   }
 
   /* -------------------- Layer Controls -------------------- */
@@ -92,6 +136,7 @@ export class MapService {
       naturschutz: boolean | null;
     }>
   ) {
+    // Toggle layers
     if (value.liegenschaften !== undefined && value.liegenschaften !== null)
       this.wmsService.toggleRLP_ALKIS(value.liegenschaften);
     if (value.flurstuecke !== undefined && value.flurstuecke !== null)

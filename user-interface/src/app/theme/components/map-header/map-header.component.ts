@@ -3,7 +3,7 @@ import { MapService } from '../../../core/services/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { GeocodingService } from '../../../core/services/geocoding.service';
 import { Router } from '@angular/router';
-import { Address } from '../../../core/models/Address';
+import { Address } from '../../../core/models/address';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({

@@ -6,31 +6,21 @@ import {
   Input,
   EventEmitter,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import * as proj from 'ol/proj';
-import { View, Feature, Map } from 'ol';
+import { View, Map } from 'ol';
 import { Coordinate, createStringXY } from 'ol/coordinate';
-import { ScaleLine, defaults as DefaultControls } from 'ol/control';
-import VectorLayer from 'ol/layer/Vector';
-// import Projection from 'ol/proj/Projection';
-// import { get as GetProjection } from 'ol/proj';
-// import { Extent } from 'ol/extent';
-import TileLayer from 'ol/layer/Tile';
-import { OSM, TileWMS, XYZ, Vector } from 'ol/source';
-import { SidebarControl } from './custom-controls/sidebar-control';
-import { Layer } from 'ol/layer';
 
 import MousePosition from 'ol/control/MousePosition';
 import { MapService } from '../../core/services/map.service';
-import { coordinates } from 'ol/geom/flat/reverse';
-import { Point } from 'ol/geom';
-import { Icon, Style } from 'ol/style';
 import { LocationService } from '../../core/services/layer-services/location.service';
 import { SatelliteService } from '../../core/services/layer-services/satellite.service';
 import { OpenStreetMapService } from '../../core/services/layer-services/open-street-map.service';
 import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
 import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
 import { WmsService } from '../../core/services/layer-services/wms.service';
+import { WfsService } from '../../core/services/layer-services/wfs.service';
 
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
@@ -68,7 +58,8 @@ export class MapComponent implements AfterViewInit {
     private osmService: OpenStreetMapService,
     private searchAreaService: SearchAreaService,
     private courtLayerService: CourtLayerService,
-    private wmsService: WmsService
+    private wmsService: WmsService,
+    private wfsService: WfsService
   ) {
     this.mapService
       .getCoordinate()
@@ -76,6 +67,9 @@ export class MapComponent implements AfterViewInit {
     this.mapService
       .getRadius()
       .subscribe((radius: number) => (this.radius = radius));
+    this.mapService.getZoom().subscribe(zoom => {
+      this.zoom = zoom;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -87,8 +81,13 @@ export class MapComponent implements AfterViewInit {
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
     this.wmsService.initWMSService(this.map);
+    this.wfsService.initWMSService(this.map, this.view);
     //this.courtLayerService.initCourtLayerService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
+
+    this.map?.on('moveend', () => {
+      this.mapService.setZoom(this.view.getZoom()!);
+    });
   }
 
   private initMap(): void {

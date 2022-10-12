@@ -6,7 +6,7 @@ import { MapService } from './map.service';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { environment } from '../../../environments/environment';
-import { Address } from '../models/Address';
+import { Address } from '../models/address';
 
 @Injectable({
   providedIn: 'root',

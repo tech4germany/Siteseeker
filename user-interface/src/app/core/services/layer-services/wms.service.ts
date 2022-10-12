@@ -1,9 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import Map from 'ol/Map';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-import { GeoJSON } from 'ol/format';
-import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 import {
   rlpWMS_Umwelt,
   rlpWMS_Nutzung,
@@ -13,34 +9,16 @@ import {
   rlpWMS_GebaeudeBauwerke,
   berlinWMS_ALKIS,
 } from './wms.layers';
+import VectorSource from 'ol/source/Vector';
+import { GeoJSON } from 'ol/format';
+import VectorLayer from 'ol/layer/Vector';
+import { environment } from '../../../../environments/environment';
+import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WmsService {
-  vectorSource = new VectorSource({
-    format: new GeoJSON(),
-    url: function (extent) {
-      return (
-        'https://geo5.service24.rlp.de/wfs/bodenschaetzung_rp.fcgi?' +
-        'outputFormat=application/json&srsname=EPSG:3857&' +
-        'bbox=' +
-        extent.join(',') +
-        ',EPSG:3857'
-      );
-    },
-    strategy: bboxStrategy,
-  });
-
-  testWFS = new VectorLayer({
-    source: this.vectorSource,
-    style: {
-      'stroke-width': 0.75,
-      'stroke-color': 'white',
-      'fill-color': 'rgba(100,100,100,0.25)',
-    },
-  });
-
   constructor() {}
 
   public initWMSService(map: Map | undefined) {
@@ -50,7 +28,6 @@ export class WmsService {
     map?.addLayer(rlpWMS_Lagebezeichnungen);
     map?.addLayer(rlpWMS_Flurstueck);
     map?.addLayer(rlpWMS_Umwelt);
-    map?.addLayer(this.testWFS);
     //    map?.addLayer(this.berlinWMS_ALKIS);
   }
 

@@ -26,12 +26,26 @@ export class LayersMenuComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
+    // Restore selected maps settings
+    const storedMapControls = JSON.parse(
+      localStorage.getItem('extendedMapControl')!
+    );
+    if (storedMapControls) {
+      this.mapService.extendedMapControl(storedMapControls);
+      this.extendedMapControl.setValue(storedMapControls);
+    }
+
     this.baseMapControl.statusChanges.subscribe(() => {
       this.mapService.baseMapControl(this.baseMapControl.value.map);
     });
 
     this.extendedMapControl.statusChanges.subscribe(() => {
       this.mapService.extendedMapControl(this.extendedMapControl.value);
+      // Save state to local storage
+      localStorage.setItem(
+        'extendedMapControl',
+        JSON.stringify(this.extendedMapControl.value)
+      );
     });
   }
 

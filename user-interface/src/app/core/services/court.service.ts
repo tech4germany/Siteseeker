@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Court, Fields, Geom, Geometry } from '../models/Court';
+import { Court, Fields, Geom, Geometry } from '../models/court';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 

@@ -9,6 +9,7 @@ export const environment = {
   apiRLPKataster: '/rlp/kataster',
   apiBERKataster: '/berlin/kataster',
   apiRLPUmwelt: '/rlp/umwelt',
+  apiRLPwfs: '/rlp/wfs',
   courtDataApi: '../assets/geodata/amtsgerichte-in-deutschland.json',
   reverseGeocodeAPI: '',
   reverseGeocodeAPIKey: reverseGeocodeAPIKey,
