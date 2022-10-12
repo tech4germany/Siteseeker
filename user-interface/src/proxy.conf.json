@@ -18,7 +18,7 @@
     "logLevel": "debug"
   },
   "/rlp/umwelt": {
-    "target": "https://geo5.service24.rlp.de/wms/liegenschaften_rp.fcgi",
+    "target": "https://geodaten.naturschutz.rlp.de/kartendienste_naturschutz/mod_ogc/wms_getmap.php?mapfile=naturschutzgebiet&service=WMS&version=1.1.1&Request=GetCapabilities",
     "secure": false,
     "pathRewrite": {
       "^/rlp/umwelt": ""

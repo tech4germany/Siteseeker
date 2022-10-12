@@ -54,7 +54,7 @@ export class MapComponent implements AfterViewInit {
     'EPSG:4326',
     'EPSG:3857'
   ); // Berliner Fernsehturm
-  private zoom: number = 15;
+  private zoom: number = 15.5;
   private radius: number = 1;
   view: View = new View();
   map: Map | undefined = undefined;

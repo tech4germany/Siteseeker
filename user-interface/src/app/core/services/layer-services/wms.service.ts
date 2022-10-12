@@ -3,6 +3,10 @@ import TileLayer from 'ol/layer/Tile';
 import { OSM, TileWMS } from 'ol/source';
 import { MapService } from '../map.service';
 import Map from 'ol/Map';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import { GeoJSON } from 'ol/format';
+import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 
 @Injectable({
   providedIn: 'root',
@@ -68,21 +72,21 @@ export class WmsService {
     visible: false,
   });
 
-  rlpWMS_Hintergrund: TileLayer<any> = new TileLayer({
-    source: new TileWMS({
-      url: '/rlp/kataster',
-      params: { LAYERS: 'Hintergrund', TILED: true },
-      serverType: 'geoserver',
-      // Countries have transparency, so do not fade tiles:
-      transition: 0,
-    }),
-    visible: false,
-  });
+  // rlpWMS_Hintergrund: TileLayer<any> = new TileLayer({
+  //   source: new TileWMS({
+  //     url: '/rlp/kataster',
+  //     params: { LAYERS: 'Hintergrund', TILED: true },
+  //     serverType: 'geoserver',
+  //     // Countries have transparency, so do not fade tiles:
+  //     transition: 0,
+  //   }),
+  //   visible: false,
+  // });
 
   rlpWMS_Umwelt: TileLayer<any> = new TileLayer({
     source: new TileWMS({
       url: '/rlp/umwelt',
-      params: { LAYERS: 'Hintergrund', TILED: true },
+      params: { LAYERS: 'mywmsfile', TILED: true },
       serverType: 'geoserver',
       // Countries have transparency, so do not fade tiles:
       transition: 0,
@@ -101,6 +105,29 @@ export class WmsService {
     visible: false,
   });
 
+  vectorSource = new VectorSource({
+    format: new GeoJSON(),
+    url: function (extent) {
+      return (
+        'https://geo5.service24.rlp.de/wfs/bodenschaetzung_rp.fcgi?' +
+        'outputFormat=application/json&srsname=EPSG:3857&' +
+        'bbox=' +
+        extent.join(',') +
+        ',EPSG:3857'
+      );
+    },
+    strategy: bboxStrategy,
+  });
+
+  testWFS = new VectorLayer({
+    source: this.vectorSource,
+    style: {
+      'stroke-width': 0.75,
+      'stroke-color': 'white',
+      'fill-color': 'rgba(100,100,100,0.25)',
+    },
+  });
+
   constructor() {}
 
   public initWMSService(map: Map | undefined) {
@@ -109,7 +136,8 @@ export class WmsService {
     map?.addLayer(this.rlpWMS_GebaeudeBauwerke);
     map?.addLayer(this.rlpWMS_Lagebezeichnungen);
     map?.addLayer(this.rlpWMS_Flurstueck);
-    map?.addLayer(this.rlpWMS_Hintergrund);
+    map?.addLayer(this.rlpWMS_Umwelt);
+    map?.addLayer(this.testWFS);
     //    map?.addLayer(this.berlinWMS_ALKIS);
   }
 
@@ -119,7 +147,7 @@ export class WmsService {
   }
 
   public toggleRLP_Nutzung(toggle: boolean) {
-    this.rlpWMS_Nutzung.setVisible(!this.rlpWMS_Nutzung.getVisible());
+    this.rlpWMS_Nutzung.setVisible(toggle);
   }
 
   public toggleRLP_GebaeudeBauwerke(toggle: boolean) {
@@ -134,7 +162,7 @@ export class WmsService {
     this.rlpWMS_Flurstueck.setVisible(toggle);
   }
 
-  public toggleRLP_Hintergrund(toggle: boolean) {
-    this.rlpWMS_Hintergrund.setVisible(toggle);
+  public toggleRLP_Umwelt(toggle: boolean) {
+    this.rlpWMS_Umwelt.setVisible(toggle);
   }
 }

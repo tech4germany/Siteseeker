@@ -20,7 +20,7 @@ export class LayersMenuComponent implements OnInit {
     gebaeude: new FormControl(false),
     lagebezeichnung: new FormControl(false),
     flurstuecke: new FormControl(false),
-    hintergrund: new FormControl(false),
+    naturschutz: new FormControl(false),
   });
 
   constructor(private mapService: MapService) {}
@@ -31,7 +31,6 @@ export class LayersMenuComponent implements OnInit {
     });
 
     this.extendedMapControl.statusChanges.subscribe(() => {
-      console.log(this.extendedMapControl);
       this.mapService.extendedMapControl(this.extendedMapControl.value);
     });
   }

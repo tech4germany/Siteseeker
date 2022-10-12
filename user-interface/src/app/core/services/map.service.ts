@@ -3,8 +3,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Coordinate } from 'ol/coordinate';
 import * as proj from 'ol/proj';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { WmsService } from './layer-services/wms.service';
 import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
@@ -22,7 +20,7 @@ export class MapService {
   inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject(
     this.baseCoordinate
   );
-  radius$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
+  radius$: BehaviorSubject<number> = new BehaviorSubject<number>(1000);
 
   constructor(
     private httpClient: HttpClient,
@@ -91,7 +89,7 @@ export class MapService {
       gebaeude: boolean | null;
       lagebezeichnung: boolean | null;
       flurstuecke: boolean | null;
-      hintergrund: boolean | null;
+      naturschutz: boolean | null;
     }>
   ) {
     if (value.liegenschaften !== undefined && value.liegenschaften !== null)
@@ -104,8 +102,8 @@ export class MapService {
       this.wmsService.toggleRLP_Nutzung(value.nutzung);
     if (value.lagebezeichnung !== undefined && value.lagebezeichnung !== null)
       this.wmsService.toggleRLP_Lagebzeichnungen(value.lagebezeichnung);
-    if (value.hintergrund !== undefined && value.hintergrund !== null)
-      this.wmsService.toggleRLP_Hintergrund(value.hintergrund);
+    if (value.naturschutz !== undefined && value.naturschutz !== null)
+      this.wmsService.toggleRLP_Umwelt(value.naturschutz);
   }
 
   /**
