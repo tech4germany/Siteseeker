@@ -14,16 +14,18 @@
   </h4>
 </div>
 
-<div class="header-right">
+<div class="header-right" *ngIf="authService.userData as user">
   <div class="d-flex">
     <div class="user-info">
       <div class="name">
-        Mobi Thiccc
+        {{(user.displayName) ? user.displayName : 'User'}}
       </div>
       <div class="organisation">
-        Tech4Germany
+        {{user.email}}
       </div>
     </div>
     <div class="avatar border border-2 border-white"></div>
+<!--    <img class="align-self-start mr-5 img-thumbnail rounded-circle"-->
+<!--         src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">-->
   </div>
 </div>

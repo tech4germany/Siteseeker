@@ -4,6 +4,7 @@ import { Coordinate } from 'ol/coordinate';
 import { GeocodingService } from '../../../core/services/geocoding.service';
 import { Router } from '@angular/router';
 import { Address } from '../../../core/models/Address';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-map-header',
@@ -41,7 +42,8 @@ export class MapHeaderComponent implements OnInit {
   constructor(
     private mapService: MapService,
     private geocodingService: GeocodingService,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) {
     this.mapService
       .getInputCoordinate()

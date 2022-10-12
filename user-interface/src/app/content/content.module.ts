@@ -17,6 +17,10 @@ import { LocalInfoMenuComponent } from './map-overlay/components/sidebar-left/lo
 import { LocationDetailsComponent } from './map-overlay/components/sidebar-left/overview-menu/location-details/location-details.component';
 import { GovernmentStructureComponent } from './map-overlay/components/sidebar-left/local-info-menu/government-structure/government-structure.component';
 import { InfrastructureInformationComponent } from './map-overlay/components/sidebar-left/local-info-menu/infrastructure-information/infrastructure-information.component';
+import { SignInComponent } from './authetication/sign-in/sign-in.component';
+import { SignUpComponent } from './authetication/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './authetication/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './authetication/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,10 @@ import { InfrastructureInformationComponent } from './map-overlay/components/sid
     LocationDetailsComponent,
     GovernmentStructureComponent,
     InfrastructureInformationComponent,
+    SignInComponent,
+    SignUpComponent,
+    ForgotPasswordComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     CommonModule,

@@ -8,14 +8,14 @@
 <!--      <h1 class="display-5">Mobi Thicccc</h1>-->
     </a>
 
-    <div>
+    <div *ngIf="authService.userData as user">
       <div class="d-flex">
         <div class="user-info">
           <div class="name">
-            Valentin Hartig
+            {{(user.displayName) ? user.displayName : 'User'}}
           </div>
           <div class="organisation">
-            TechVier
+            {{user.email}}
           </div>
         </div>
         <div class="avatar border border-2 border-white"></div>

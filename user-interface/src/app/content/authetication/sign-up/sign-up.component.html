@@ -1,0 +1,55 @@
+<div class="menu">
+  <img src="../../../../assets/BMDV-Logo.png">
+  <div class="card">
+    <div class="card-body">
+      <div class="auth-block">
+        <h3>Registrieren</h3>
+        <div class="input-group">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="E-Mail Adresse"
+            #userEmail
+            required
+          />
+        </div>
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Passwort"
+            #userPwd
+            required
+          />
+        </div>
+        <div class="input-group">
+          <input
+            type="button"
+            class="btn btn-primary"
+            value="Registrieren"
+            (click)="authService.SignUp(userEmail.value, userPwd.value)"
+          />
+        </div>
+        <div class="input-group">
+          <span class="or"><span class="orInner">Or</span></span>
+        </div>
+        <!-- Continue with Google -->
+        <div class="input-group">
+          <button
+            type="button"
+            class="btn google-btn"
+            (click)="authService.GoogleAuth()"
+          >
+            <i class="bi bi-google"></i> Mit Google anmelden
+          </button>
+        </div>
+      </div>
+      <div class="redirectToLogin">
+      <span
+      >Du hast schon einen Account?
+        <span class="redirect" routerLink="/sign-in">Anmelden</span></span
+      >
+      </div>
+    </div>
+  </div>
+</div>
