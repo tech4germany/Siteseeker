@@ -6,7 +6,9 @@ import { reverseGeocodeAPIKey } from './api-keys';
 
 export const environment = {
   production: false,
-  geoDataApi: '',
+  apiRLPKataster: '/rlp/kataster',
+  apiBERKataster: '/berlin/kataster',
+  apiRLPUmwelt: '/rlp/umwelt',
   courtDataApi: '../assets/geodata/amtsgerichte-in-deutschland.json',
   reverseGeocodeAPI: '',
   reverseGeocodeAPIKey: reverseGeocodeAPIKey,
