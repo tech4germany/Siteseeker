@@ -6,9 +6,9 @@ import { Coordinate } from 'ol/coordinate';
 import Map from 'ol/Map';
 import { Feature, View } from 'ol';
 import { Circle, Point } from 'ol/geom';
-import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
+import { Fill, Icon, Style } from 'ol/style';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
-import { fromExtent } from 'ol/geom/Polygon';
+import { fromCircle, fromExtent } from 'ol/geom/Polygon';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,8 @@ export class SearchAreaService {
   }
 
   public initSearchArea(map: Map | undefined, view: View) {
+
+    // layer with pin at search coordinate
     const pinFeature = new Feature({
       geometry: new Point(this.coordinate),
     });
@@ -42,6 +44,13 @@ export class SearchAreaService {
       })
     );
 
+    const searchCoordinateLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [pinFeature],
+      }),
+    });
+
+    // layer with circular search area around pin coordinate
     const resolutionAtEquator = view.getResolution() ?? 1;
     const pointResolution = view.getProjection().getPointResolutionFunc()(
       resolutionAtEquator,
@@ -50,31 +59,23 @@ export class SearchAreaService {
     const resolutionFactor = resolutionAtEquator / (pointResolution ?? 1);
     const radius: number = (this.radius / METERS_PER_UNIT.m) * resolutionFactor;
 
-    const circleFeature = new Feature({
-      geometry: new Circle(this.coordinate, radius),
-      style: new Style({
-        fill: new Fill({
-          color: 'rgba(0,0,0,0)',
-        }),
-      }),
-    });
+    // define the search area and extract its shape polygon
+    const searchAreaPolygon = fromCircle(
+      new Circle(this.coordinate, radius),
+      64  // number of line elements that construct the circle
+    )
 
-    const searchCoordinateLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [pinFeature],
-      }),
-    });
+    // the layer should cover the whole view except for the search area
+    let viewExtent = fromExtent(view.getProjection().getExtent());
 
-    // define layer with clipped search area
-    // https://openlayers.org/en/latest/examples/layer-clipping-vector.html
-    // https://stackoverflow.com/questions/63672199/openlayers-add-a-solid-coloured-layer-as-overlay
-    let viewExtent= fromExtent(view.getProjection().getExtent());
-    let extentFeature = new Feature({geometry: viewExtent});
+    // cut out the search area from the layer by appending its linear ring shape to the extent polygon
+    const searchAreaLinearRing= searchAreaPolygon.getLinearRing(0)
+    viewExtent.appendLinearRing(searchAreaLinearRing!)
 
     const searchAreaLayer = new VectorLayer({
       source: new VectorSource({
-        features: [extentFeature]
-        }) ,
+        features: [new Feature({geometry: viewExtent})]
+      }),
       style: new Style({
           fill: new Fill({
             color:"rgba(0, 0, 0, 0.5)"
