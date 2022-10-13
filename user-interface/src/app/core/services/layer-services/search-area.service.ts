@@ -8,6 +8,7 @@ import { Feature, View } from 'ol';
 import { Circle, Point } from 'ol/geom';
 import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
+import { fromExtent } from 'ol/geom/Polygon';
 
 @Injectable({
   providedIn: 'root',
@@ -63,11 +64,25 @@ export class SearchAreaService {
         features: [pinFeature],
       }),
     });
+
+    // define layer with clipped search area
+    // https://openlayers.org/en/latest/examples/layer-clipping-vector.html
+    // https://stackoverflow.com/questions/63672199/openlayers-add-a-solid-coloured-layer-as-overlay
+    let viewExtent= fromExtent(view.getProjection().getExtent());
+    let extentFeature = new Feature({geometry: viewExtent});
+
     const searchAreaLayer = new VectorLayer({
       source: new VectorSource({
-        features: [circleFeature],
-      }),
+        features: [extentFeature]
+        }) ,
+      style: new Style({
+          fill: new Fill({
+            color:"rgba(0, 0, 0, 0.5)"
+        })
+      })
     });
+
+    // add layers to map
     map?.addLayer(searchAreaLayer);
     map?.addLayer(searchCoordinateLayer);
   }
