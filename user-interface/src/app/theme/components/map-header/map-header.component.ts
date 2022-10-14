@@ -5,6 +5,9 @@ import { GeocodingService } from '../../../core/services/geocoding.service';
 import { Router } from '@angular/router';
 import { Address } from '../../../core/models/address';
 import { AuthService } from '../../../core/services/auth.service';
+import { SearchArea } from '../../../core/models/searcharea';
+import { MapConfig } from '../../../core/models/mapconfig';
+import View from 'ol/View';
 
 @Component({
   selector: 'app-map-header',
@@ -12,32 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./map-header.component.scss'],
 })
 export class MapHeaderComponent implements OnInit {
-  public coordinate: Coordinate = [0, 0];
-  public radius: number = 0;
-  public address: Address = new Address(
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    ''
-  );
+  public searchArea: SearchArea;
 
   constructor(
     private mapService: MapService,
@@ -45,18 +23,14 @@ export class MapHeaderComponent implements OnInit {
     private router: Router,
     public authService: AuthService
   ) {
-    this.mapService
-      .getInputCoordinate()
-      .subscribe((coordinate: Coordinate) => (this.coordinate = coordinate));
-    this.mapService
-      .getRadius()
-      .subscribe((radius: number) => (this.radius = radius));
-    this.geocodingService
-      .getMarkerAddress()
-      .subscribe((address: Address) => (this.address = address));
+    this.searchArea = new SearchArea([], 0);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mapService.searchArea$.subscribe(
+      searchArea => (this.searchArea = searchArea)
+    );
+  }
 
   public shortenDecimal(num: number) {
     return Math.round(num * 100000) / 100000;

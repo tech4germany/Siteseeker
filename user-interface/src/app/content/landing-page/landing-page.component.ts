@@ -52,11 +52,13 @@ export class LandingPageComponent implements OnInit {
   }
 
   onSubmit() {
-    this.mapService.setCoordinate(
-      this.coordinateForm.get('longitude')?.value,
-      this.coordinateForm.get('latitude')?.value
+    this.mapService.setSearchArea(
+      [
+        this.coordinateForm.get('longitude')?.value,
+        this.coordinateForm.get('latitude')?.value,
+      ],
+      this.coordinateForm.get('radius')?.value
     );
-    this.mapService.setRadius(this.coordinateForm.get('radius')?.value);
     this.router.navigateByUrl('/userspace/map');
   }
 }

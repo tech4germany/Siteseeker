@@ -9,6 +9,12 @@ import {
   Geom,
   Geometry,
 } from '../../../../../../core/models/court';
+import { SearchArea } from '../../../../../../core/models/searcharea';
+import { MapService } from '../../../../../../core/services/map.service';
+import { MapConfig } from '../../../../../../core/models/mapconfig';
+import View from 'ol/View';
+import Feature from 'ol/Feature';
+import { GeoJSON } from 'ol/format';
 
 @Component({
   selector: 'app-government-structure',
@@ -16,45 +22,21 @@ import {
   styleUrls: ['./government-structure.component.scss'],
 })
 export class GovernmentStructureComponent implements OnInit {
-  address: Address = new Address(
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    ''
-  );
-
   court: Court | undefined = undefined;
+  searchArea: SearchArea;
+  gemarkungen: Feature[] = [];
 
   constructor(
     private sidebarService: SidebarService,
-    private geocodingService: GeocodingService,
+    private mapService: MapService,
     private courtService: CourtService
   ) {
-    this.geocodingService.address$.subscribe((address: Address) => {
-      this.address = address;
-      this.court = this.courtService.findCourtByCity(address.District);
-      if (this.court === undefined)
-        this.court = this.courtService.findCourtByCity(address.City);
-      if (this.court === undefined)
-        this.court = this.courtService.findCourtByCity(address.Subregion);
+    this.searchArea = new SearchArea([], 0);
+    this.mapService.searchArea$.subscribe((searchArea: SearchArea) => {
+      this.searchArea = searchArea;
+      this.gemarkungen = new GeoJSON().readFeatures(
+        searchArea.getGemarkungen()
+      );
     });
   }
 

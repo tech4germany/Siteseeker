@@ -2,17 +2,10 @@ import {
   Component,
   NgZone,
   AfterViewInit,
-  Output,
-  Input,
-  EventEmitter,
   ChangeDetectorRef,
-  OnDestroy,
 } from '@angular/core';
-import * as proj from 'ol/proj';
-import { View, Map } from 'ol';
-import { Coordinate, createStringXY } from 'ol/coordinate';
+import { Map } from 'ol';
 
-import MousePosition from 'ol/control/MousePosition';
 import { MapService } from '../../core/services/map.service';
 import { LocationService } from '../../core/services/layer-services/location.service';
 import { SatelliteService } from '../../core/services/layer-services/satellite.service';
@@ -20,16 +13,10 @@ import { OpenStreetMapService } from '../../core/services/layer-services/open-st
 import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
 import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
 import { WmsService } from '../../core/services/layer-services/wms.service';
-import { WfsService } from '../../core/services/layer-services/wfs.service';
-
-const mousePositionControl = new MousePosition({
-  coordinateFormat: createStringXY(4),
-  projection: 'EPSG:4326',
-  // comment the following two lines to have the mouse position
-  // be placed within the map.
-  // className: 'custom-mouse-position',
-  // target: document.getElementById('mouse-position'),
-});
+import { GemarkungenService } from '../../core/services/layer-services/gemarkungen.service';
+import { MapConfig } from '../../core/models/mapconfig';
+import { SearchArea } from '../../core/models/searcharea';
+import View from 'ol/View';
 
 @Component({
   selector: 'app-map',
@@ -37,17 +24,10 @@ const mousePositionControl = new MousePosition({
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
-  // ol.proj.transform transforms from EPSG:4326 to EPSG:3857, i.e. from [lon, lat] to [x, y], and vice versa
-  // the coordinate system is defined by the map that is being used
-  private center: Coordinate = proj.transform(
-    [0.0, 0.0],
-    'EPSG:4326',
-    'EPSG:3857'
-  ); // Berliner Fernsehturm
-  private zoom: number = 15.5;
-  private radius: number = 1;
-  view: View = new View();
   map: Map | undefined = undefined;
+  mapConfig: MapConfig;
+  searchArea: SearchArea;
+  view: View = new View();
 
   constructor(
     private zone: NgZone,
@@ -59,42 +39,43 @@ export class MapComponent implements AfterViewInit {
     private searchAreaService: SearchAreaService,
     private courtLayerService: CourtLayerService,
     private wmsService: WmsService,
-    private wfsService: WfsService
+    private wfsService: GemarkungenService
   ) {
-    this.mapService
-      .getCoordinate()
-      .subscribe((coordinate: Coordinate) => (this.center = coordinate));
-    this.mapService
-      .getRadius()
-      .subscribe((radius: number) => (this.radius = radius));
-    this.mapService.getZoom().subscribe(zoom => {
-      this.zoom = zoom;
+    // Get init values for configs
+    this.mapConfig = new MapConfig([], 0);
+    this.searchArea = new SearchArea([], 0);
+
+    // Update configs on change
+    this.mapService.mapConfig$.subscribe((mapConfig: MapConfig) => {
+      this.mapConfig = mapConfig;
+      console.log('Map Comp Config', this.view);
     });
+    this.mapService.searchArea$.subscribe(
+      (searchArea: SearchArea) => (this.searchArea = searchArea)
+    );
   }
 
   ngAfterViewInit(): void {
     if (!this.map) {
       this.zone.runOutsideAngular(() => this.initMap());
     }
+    this.view = this.map?.getView()!;
     // add layers
     this.satelliteService.initSatelliteService(this.map);
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
     this.wmsService.initWMSService(this.map);
-    this.wfsService.initWMSService(this.map, this.view);
+    this.wfsService.initGemarkungenService(this.map, this.view);
     //this.courtLayerService.initCourtLayerService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
-
-    this.map?.on('moveend', () => {
-      this.mapService.setZoom(this.view.getZoom()!);
-    });
   }
 
   private initMap(): void {
     this.view = new View({
-      center: this.center,
-      zoom: this.zoom,
+      center: this.searchArea.coordinate,
+      zoom: this.mapConfig.zoom,
     });
+
     this.map = new Map({
       layers: [],
       target: 'map',

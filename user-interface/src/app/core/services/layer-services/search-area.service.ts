@@ -2,35 +2,33 @@ import { Injectable } from '@angular/core';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { MapService } from '../map.service';
-import { Coordinate } from 'ol/coordinate';
 import Map from 'ol/Map';
-import { Feature, View } from 'ol';
-import { Circle, Point } from 'ol/geom';
-import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
+import { View } from 'ol';
+import { SearchArea } from '../../models/searcharea';
+import { MapConfig } from '../../models/mapconfig';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { Fill, Icon, Style } from 'ol/style';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
+import { Circle } from 'ol/geom';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchAreaService {
-  private radius: number = 1;
-
-  private coordinate: Coordinate = [];
+  private searchArea: SearchArea;
 
   constructor(private mapService: MapService) {
-    this.mapService
-      .getRadius()
-      .subscribe((newRadius: number) => (this.radius = newRadius));
-    this.mapService
-      .getCoordinate()
-      .subscribe(
-        (newCoordinate: Coordinate) => (this.coordinate = newCoordinate)
-      );
+    this.searchArea = new SearchArea([], 0);
+
+    this.mapService.searchArea$.subscribe(
+      (searchArea: SearchArea) => (this.searchArea = searchArea)
+    );
   }
 
   public initSearchArea(map: Map | undefined, view: View) {
     const pinFeature = new Feature({
-      geometry: new Point(this.coordinate),
+      geometry: new Point(this.searchArea.coordinate),
     });
     pinFeature.setStyle(
       new Style({
@@ -44,18 +42,14 @@ export class SearchAreaService {
     const resolutionAtEquator = view.getResolution() ?? 1;
     const pointResolution = view.getProjection().getPointResolutionFunc()(
       resolutionAtEquator,
-      this.coordinate
+      this.searchArea.coordinate
     );
     const resolutionFactor = resolutionAtEquator / (pointResolution ?? 1);
-    const radius: number = (this.radius / METERS_PER_UNIT.m) * resolutionFactor;
+    const radius: number =
+      (this.searchArea.radius / METERS_PER_UNIT.m) * resolutionFactor;
 
     const circleFeature = new Feature({
-      geometry: new Circle(this.coordinate, radius),
-      style: new Style({
-        fill: new Fill({
-          color: 'rgba(0,0,0,0)',
-        }),
-      }),
+      geometry: new Circle(this.searchArea.coordinate, radius),
     });
 
     const searchCoordinateLayer = new VectorLayer({
