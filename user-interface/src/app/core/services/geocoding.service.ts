@@ -7,44 +7,21 @@ import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { environment } from '../../../environments/environment';
 import { Address } from '../models/address';
+import { SearchArea } from '../models/searcharea';
+import View from 'ol/View';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeocodingService {
-  cityName$: BehaviorSubject<string> = new BehaviorSubject('');
-  state$: BehaviorSubject<string> = new BehaviorSubject('');
-  address$: BehaviorSubject<Address> = new BehaviorSubject(
-    new Address(
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      ''
-    )
-  );
+  private searchArea: SearchArea;
 
   constructor(private mapService: MapService) {
-    this.mapService
-      .getInputCoordinate()
-      .subscribe((coordinate: Coordinate) => this.reverseGeocode(coordinate));
+    this.searchArea = new SearchArea([], 0);
+    this.mapService.searchArea$.subscribe((searchArea: SearchArea) => {
+      this.searchArea = searchArea;
+      //this.reverseGeocode(searchArea.inputCoordinate);
+    });
   }
 
   public geocode(name: String): Coordinate {
@@ -60,12 +37,7 @@ export class GeocodingService {
       authentication,
     });
     revGeocode.then(value => {
-      const address: Address = <Address>value.address;
-      this.address$.next(address);
+      this.searchArea.address = <Address>value.address;
     });
-  }
-
-  public getMarkerAddress(): BehaviorSubject<Address> {
-    return this.address$;
   }
 }

@@ -1,16 +1,16 @@
 <div class="header-left">
   <p class="coordinate-display">
     <strong> <i class="bi bi-geo-alt-fill"></i>
-      {{ this.shortenDecimal(this.coordinate[0]) }}, {{this.shortenDecimal(this.coordinate[1])}}</strong>
+      {{ this.shortenDecimal(this.searchArea.inputCoordinate[0]) }}, {{this.shortenDecimal(this.searchArea.inputCoordinate[1])}}</strong>
     |
-    <strong>{{this.radius}} Meter</strong>
+    <strong>{{this.searchArea.radius}} Meter</strong>
     <i class="bi bi-pencil-fill pencilIcon" (click)="navigateToLandingpage()"></i>
   </p>
   <h1 class="display-1">
-    {{this.address.City}}
+    {{this.searchArea.address.City}}
   </h1>
   <h4 class="display-4">
-    {{this.address.Region}}
+    {{this.searchArea.address.Region}}
   </h4>
 </div>
 

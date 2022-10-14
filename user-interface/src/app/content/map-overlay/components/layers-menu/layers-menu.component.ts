@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MapService } from 'src/app/core/services/map.service';
+import { LayersControlService } from '../../../../core/services/layers-control.service';
 
 @Component({
   selector: 'app-layers-menu',
@@ -18,12 +19,12 @@ export class LayersMenuComponent implements OnInit {
     liegenschaften: new FormControl(false),
     nutzung: new FormControl(false),
     gebaeude: new FormControl(false),
-    lagebezeichnung: new FormControl(false),
+    gemarkungen: new FormControl(false),
     flurstuecke: new FormControl(false),
     naturschutz: new FormControl(false),
   });
 
-  constructor(private mapService: MapService) {}
+  constructor(private layersControlService: LayersControlService) {}
 
   ngOnInit(): void {
     // Restore selected maps settings
@@ -31,16 +32,18 @@ export class LayersMenuComponent implements OnInit {
       localStorage.getItem('extendedMapControl')!
     );
     if (storedMapControls) {
-      this.mapService.extendedMapControl(storedMapControls);
+      this.layersControlService.extendedMapControl(storedMapControls);
       this.extendedMapControl.setValue(storedMapControls);
     }
 
     this.baseMapControl.statusChanges.subscribe(() => {
-      this.mapService.baseMapControl(this.baseMapControl.value.map);
+      this.layersControlService.baseMapControl(this.baseMapControl.value.map);
     });
 
     this.extendedMapControl.statusChanges.subscribe(() => {
-      this.mapService.extendedMapControl(this.extendedMapControl.value);
+      this.layersControlService.extendedMapControl(
+        this.extendedMapControl.value
+      );
       // Save state to local storage
       localStorage.setItem(
         'extendedMapControl',

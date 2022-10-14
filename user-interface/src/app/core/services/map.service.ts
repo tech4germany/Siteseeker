@@ -6,7 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { WmsService } from './layer-services/wms.service';
 import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
-import { Map } from 'ol';
+import { SearchArea } from '../models/searcharea';
+import { MapConfig } from '../models/mapconfig';
+import View from 'ol/View';
+import { GemarkungenService } from './layer-services/gemarkungen.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,157 +20,69 @@ export class MapService {
   baseZoom: number = 15.5;
   baseRadius: number = 1000;
 
-  coordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject<Coordinate>(
-    proj.transform(this.baseCoordinate, 'EPSG:4326', 'EPSG:3857')
-  );
-  inputCoordinate$: BehaviorSubject<Coordinate> = new BehaviorSubject(
-    this.baseCoordinate
-  );
-  radius$: BehaviorSubject<number> = new BehaviorSubject<number>(
-    this.baseRadius
-  );
-  zoom$: BehaviorSubject<number> = new BehaviorSubject<number>(this.baseZoom);
+  private _mapConfig$: BehaviorSubject<MapConfig>;
+  private _mapConfig: MapConfig;
+  private _searchArea$: BehaviorSubject<SearchArea>;
+  private _searchArea: SearchArea;
 
-  map: Map | undefined = undefined;
+  private view: View;
 
   constructor(
     private httpClient: HttpClient,
-    private wmsService: WmsService,
-    private satelliteService: SatelliteService,
     private osmService: OpenStreetMapService
   ) {
+    this.view = new View({
+      center: this.baseCoordinate,
+      zoom: this.baseZoom,
+    });
+
+    this._searchArea = new SearchArea(this.baseCoordinate, this.baseRadius);
+    this._mapConfig = new MapConfig(this.baseCoordinate, this.baseZoom);
+    this._mapConfig$ = new BehaviorSubject<MapConfig>(this._mapConfig);
+    this._searchArea$ = new BehaviorSubject(this._searchArea);
+
     // Load attributes from local storage
-    if (localStorage.getItem('zoom')) {
-      this.baseZoom = JSON.parse(localStorage.getItem('zoom')!);
-      this.zoom$.next(this.baseZoom);
+    if (localStorage.getItem('searchArea')) {
+      let fetchedSearchArea = JSON.parse(
+        localStorage.getItem('searchArea')!
+      ) as SearchArea;
+      Object.assign(this._searchArea, fetchedSearchArea);
+      //this._searchArea$.next(this._searchArea);
     }
-    if (localStorage.getItem('coordinate')) {
-      this.baseCoordinate = JSON.parse(localStorage.getItem('coordinate')!);
-      this.inputCoordinate$.next(this.baseCoordinate);
-      this.coordinate$.next(
-        proj.transform(this.baseCoordinate, 'EPSG:4326', 'EPSG:3857')
-      );
-    }
-    if (localStorage.getItem('radius')) {
-      this.baseRadius = JSON.parse(localStorage.getItem('radius')!);
-      this.radius$.next(this.baseRadius);
+    if (localStorage.getItem('mapConfig')) {
+      let fetchedMapConfig = JSON.parse(
+        localStorage.getItem('mapConfig')!
+      ) as MapConfig;
+      Object.assign(this._mapConfig, fetchedMapConfig);
+      // this._mapConfig$.next(this._mapConfig);
     }
 
-    // Save attributes in local storage
-    this.zoom$.subscribe(zoom =>
-      localStorage.setItem('zoom', JSON.stringify(zoom))
-    );
-    this.radius$.subscribe(radius =>
-      localStorage.setItem('radius', JSON.stringify(radius))
-    );
-    this.inputCoordinate$.subscribe(coord =>
-      localStorage.setItem('coordinate', JSON.stringify(coord))
-    );
+    // Update service and local storage on changes
+    this._searchArea$.subscribe(searchArea => {
+      console.log('Loop', searchArea);
+      localStorage.setItem('searchArea', JSON.stringify(searchArea));
+      this._searchArea = searchArea;
+    });
+    this._mapConfig$.subscribe(mapConfig => {
+      localStorage.setItem('mapConfig', JSON.stringify(mapConfig));
+      this._mapConfig = mapConfig;
+    });
+
     // Set OSM as default base layer
     this.osmService.toggleOSMLayer(true);
   }
 
-  /* -------------------- Coordinate Setters / Getters -------------------- */
-  public setCoordinate(longitude: number, latitude: number) {
-    this.coordinate$.next(
-      proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
-    );
-    this.inputCoordinate$.next([longitude, latitude]);
+  public setSearchArea(coordinate: Coordinate, radius: number) {
+    this._searchArea.inputCoordinate = coordinate;
+    this._searchArea.radius = radius;
+    this._searchArea$.next(this._searchArea);
   }
 
-  public setRadius(radius: number) {
-    this.radius$.next(radius);
+  get mapConfig$(): BehaviorSubject<MapConfig> {
+    return this._mapConfig$;
   }
 
-  public getCoordinate(): BehaviorSubject<Coordinate> {
-    return this.coordinate$;
-  }
-
-  public getInputCoordinate(): BehaviorSubject<Coordinate> {
-    return this.inputCoordinate$;
-  }
-
-  public getRadius(): BehaviorSubject<number> {
-    return this.radius$;
-  }
-
-  public setZoom(zoom: number) {
-    this.zoom$.next(zoom);
-  }
-
-  public getZoom(): BehaviorSubject<number> {
-    return this.zoom$;
-  }
-
-  /* -------------------- Layer Controls -------------------- */
-
-  public baseMapControl(map: string | undefined | null) {
-    switch (map) {
-      case 'base':
-        this.osmService.toggleOSMLayer(true);
-        this.satelliteService.toggleSatelliteLayer(false);
-        // TODO: Add Topo Service
-        break;
-      case 'satellite':
-        this.osmService.toggleOSMLayer(false);
-        this.satelliteService.toggleSatelliteLayer(true);
-        // TODO: Add Topo Service
-        break;
-      case 'topo':
-        this.osmService.toggleOSMLayer(false);
-        this.satelliteService.toggleSatelliteLayer(false);
-        // TODO: Add Topo Service
-        break;
-
-      default:
-        this.osmService.toggleOSMLayer(true);
-        this.satelliteService.toggleSatelliteLayer(false);
-      // TODO: Add Topo Service
-    }
-  }
-
-  public extendedMapControl(
-    value: Partial<{
-      liegenschaften: boolean | null;
-      nutzung: boolean | null;
-      gebaeude: boolean | null;
-      lagebezeichnung: boolean | null;
-      flurstuecke: boolean | null;
-      naturschutz: boolean | null;
-    }>
-  ) {
-    // Toggle layers
-    if (value.liegenschaften !== undefined && value.liegenschaften !== null)
-      this.wmsService.toggleRLP_ALKIS(value.liegenschaften);
-    if (value.flurstuecke !== undefined && value.flurstuecke !== null)
-      this.wmsService.toggleRLP_Flurstuecke(value.flurstuecke);
-    if (value.gebaeude !== undefined && value.gebaeude !== null)
-      this.wmsService.toggleRLP_GebaeudeBauwerke(value.gebaeude);
-    if (value.nutzung !== undefined && value.nutzung !== null)
-      this.wmsService.toggleRLP_Nutzung(value.nutzung);
-    if (value.lagebezeichnung !== undefined && value.lagebezeichnung !== null)
-      this.wmsService.toggleRLP_Lagebzeichnungen(value.lagebezeichnung);
-    if (value.naturschutz !== undefined && value.naturschutz !== null)
-      this.wmsService.toggleRLP_Umwelt(value.naturschutz);
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   *
-   * @private
-   * @template T
-   * @param {string} [operation='operation'] - name of the operation that failed
-   * @param {T} [result] - optional value to return as the observable result
-   * @returns
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  get searchArea$(): BehaviorSubject<SearchArea> {
+    return this._searchArea$;
   }
 }
