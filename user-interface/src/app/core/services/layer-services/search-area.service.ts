@@ -3,14 +3,12 @@ import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { MapService } from '../map.service';
 import Map from 'ol/Map';
-import { View } from 'ol';
-import { SearchArea } from '../../models/searcharea';
-import { MapConfig } from '../../models/mapconfig';
-import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
+import { Feature, View } from 'ol';
+import { Circle, Point } from 'ol/geom';
 import { Fill, Icon, Style } from 'ol/style';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
-import { Circle } from 'ol/geom';
+import { fromCircle, fromExtent } from 'ol/geom/Polygon';
+
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +25,8 @@ export class SearchAreaService {
   }
 
   public initSearchArea(map: Map | undefined, view: View) {
+
+    // layer with pin at search coordinate
     const pinFeature = new Feature({
       geometry: new Point(this.searchArea.coordinate),
     });
@@ -39,6 +39,13 @@ export class SearchAreaService {
       })
     );
 
+    const searchCoordinateLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [pinFeature],
+      }),
+    });
+
+    // layer with circular search area around pin coordinate
     const resolutionAtEquator = view.getResolution() ?? 1;
     const pointResolution = view.getProjection().getPointResolutionFunc()(
       resolutionAtEquator,
@@ -48,20 +55,31 @@ export class SearchAreaService {
     const radius: number =
       (this.searchArea.radius / METERS_PER_UNIT.m) * resolutionFactor;
 
-    const circleFeature = new Feature({
-      geometry: new Circle(this.searchArea.coordinate, radius),
-    });
+    // define the search area and extract its shape polygon
+    const searchAreaPolygon = fromCircle(
+      new Circle(this.coordinate, radius),
+      64  // number of line elements that construct the circle
+    )
 
-    const searchCoordinateLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [pinFeature],
-      }),
-    });
+    // the layer should cover the whole view except for the search area
+    let viewExtent = fromExtent(view.getProjection().getExtent());
+
+    // cut out the search area from the layer by appending its linear ring shape to the extent polygon
+    const searchAreaLinearRing= searchAreaPolygon.getLinearRing(0)
+    viewExtent.appendLinearRing(searchAreaLinearRing!)
+
     const searchAreaLayer = new VectorLayer({
       source: new VectorSource({
-        features: [circleFeature],
+        features: [new Feature({geometry: viewExtent})]
       }),
+      style: new Style({
+          fill: new Fill({
+            color:"rgba(0, 0, 0, 0.5)"
+        })
+      })
     });
+
+    // add layers to map
     map?.addLayer(searchAreaLayer);
     map?.addLayer(searchCoordinateLayer);
   }
