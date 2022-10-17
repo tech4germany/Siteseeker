@@ -8,12 +8,14 @@ import View from 'ol/View';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { SearchArea } from '../../models/searcharea';
+import { SearchArea } from '../../models/config/searcharea';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import Feature from 'ol/Feature';
 import { Stroke, Style } from 'ol/style';
 import { GeoJSON } from 'ol/format';
+import { CourtService } from '../court.service';
+import { Court } from '../../models/data/court';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +34,11 @@ export class GemarkungenService {
     }),
   });
 
-  constructor(private mapService: MapService, private httpClient: HttpClient) {
+  constructor(
+    private mapService: MapService,
+    private httpClient: HttpClient,
+    private courtService: CourtService
+  ) {
     this.searchArea = new SearchArea([], 0);
     this.mapService.searchArea$.subscribe(
       searchArea => (this.searchArea = searchArea)
@@ -51,13 +57,16 @@ export class GemarkungenService {
 
     const circleGeometry = new Circle(this.searchArea.coordinate, radius);
     this.getRLPData(circleGeometry.getExtent()).subscribe(data => {
-      this.searchArea.setGemarkungen(data);
-      this.mapService.searchArea$.next(this.searchArea);
-      this.gemarkungenSource.addFeatures(new GeoJSON().readFeatures(data));
+      // Get courtdata to resolve court names from api to court information from local json db
+      this.courtService.getCourtsObservable().subscribe((courts: Court[]) => {
+        this.searchArea.setGemarkungenGeoJSON(data, courts);
+        this.mapService.searchArea$.next(this.searchArea);
+        this.gemarkungenSource.addFeatures(new GeoJSON().readFeatures(data));
 
-      this.gemarkungen.setSource(this.gemarkungenSource);
+        this.gemarkungen.setSource(this.gemarkungenSource);
 
-      map?.addLayer(this.gemarkungen);
+        map?.addLayer(this.gemarkungen);
+      });
     });
   }
 
@@ -69,7 +78,6 @@ export class GemarkungenService {
       'request=GetFeature&' +
       'typename=vermkv:fluren_rlp&' +
       'outputFormat=geojson&' +
-      'format_options=callback:loadFeaturesFixed&' +
       'srsname=EPSG:3857&' +
       'bbox=' +
       extent.join(',') +

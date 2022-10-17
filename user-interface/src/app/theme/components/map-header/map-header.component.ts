@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../../core/services/map.service';
-import { Coordinate } from 'ol/coordinate';
 import { GeocodingService } from '../../../core/services/geocoding.service';
 import { Router } from '@angular/router';
-import { Address } from '../../../core/models/address';
 import { AuthService } from '../../../core/services/auth.service';
-import { SearchArea } from '../../../core/models/searcharea';
-import { MapConfig } from '../../../core/models/mapconfig';
-import View from 'ol/View';
+import { SearchArea } from '../../../core/models/config/searcharea';
 
 @Component({
   selector: 'app-map-header',

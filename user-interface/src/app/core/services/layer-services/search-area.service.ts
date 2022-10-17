@@ -8,7 +8,7 @@ import { Circle, Point } from 'ol/geom';
 import { Fill, Icon, Style } from 'ol/style';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
 import { fromCircle, fromExtent } from 'ol/geom/Polygon';
-import { SearchArea } from '../../models/searcharea';
+import { SearchArea } from '../../models/config/searcharea';
 
 @Injectable({
   providedIn: 'root',

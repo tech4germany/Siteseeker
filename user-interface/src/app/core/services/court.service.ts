@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Court, Fields, Geom, Geometry } from '../models/court';
+import { Court, Fields, Geom, Geometry } from '../models/data/court';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
@@ -53,9 +53,9 @@ export class CourtService {
     );
   }
 
-  public findCourtByCity(cityName: string): Court | undefined {
-    return this.courts.find(
-      (currCourt: Court) => currCourt.fields.ort === cityName
+  public findCourtByName(courtName: string): Court | undefined {
+    return this.courts.find((currCourt: Court) =>
+      currCourt.fields.gericht.includes(courtName)
     );
   }
 

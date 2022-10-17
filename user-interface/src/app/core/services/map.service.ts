@@ -6,10 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { WmsService } from './layer-services/wms.service';
 import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
-import { SearchArea } from '../models/searcharea';
-import { MapConfig } from '../models/mapconfig';
+import { SearchArea } from '../models/config/searcharea';
+import { MapConfig } from '../models/config/mapconfig';
 import View from 'ol/View';
 import { GemarkungenService } from './layer-services/gemarkungen.service';
+import { CourtService } from './court.service';
+import { Gemarkung } from '../models/data/gemarkung';
+import { GeoJSON } from 'ol/format';
 
 @Injectable({
   providedIn: 'root',
@@ -36,19 +39,26 @@ export class MapService {
       zoom: this.baseZoom,
     });
 
-    this._searchArea = new SearchArea(this.baseCoordinate, this.baseRadius);
     this._mapConfig = new MapConfig(this.baseCoordinate, this.baseZoom);
-    this._mapConfig$ = new BehaviorSubject<MapConfig>(this._mapConfig);
-    this._searchArea$ = new BehaviorSubject(this._searchArea);
+    // The following part checks if state objects have been persisted in local storage
+    // If there are objects, it rebuilds the search area from the chunks and loads the observables
+    // with the appropriate objects
 
-    // Load attributes from local storage
-    if (localStorage.getItem('searchArea')) {
-      let fetchedSearchArea = JSON.parse(
-        localStorage.getItem('searchArea')!
-      ) as SearchArea;
-      Object.assign(this._searchArea, fetchedSearchArea);
-      //this._searchArea$.next(this._searchArea);
+    let rebuildCoordinate: Coordinate = this.baseCoordinate;
+    const storedCoordinate = localStorage.getItem('inputCoordinate');
+    if (storedCoordinate) {
+      Object.assign(
+        rebuildCoordinate,
+        JSON.parse(storedCoordinate) as Coordinate
+      );
     }
+    let rebuildRadius: number = this.baseRadius;
+    const storedRadius = localStorage.getItem('radius');
+    if (storedRadius) {
+      Object.assign(rebuildRadius, JSON.parse(storedRadius) as number);
+    }
+    this._searchArea = new SearchArea(rebuildCoordinate, rebuildRadius);
+
     if (localStorage.getItem('mapConfig')) {
       let fetchedMapConfig = JSON.parse(
         localStorage.getItem('mapConfig')!
@@ -57,12 +67,20 @@ export class MapService {
       // this._mapConfig$.next(this._mapConfig);
     }
 
+    this._mapConfig$ = new BehaviorSubject<MapConfig>(this._mapConfig);
+    this._searchArea$ = new BehaviorSubject(this._searchArea);
+
     // Update service and local storage on changes
     this._searchArea$.subscribe(searchArea => {
-      console.log('Loop', searchArea);
-      localStorage.setItem('searchArea', JSON.stringify(searchArea));
       this._searchArea = searchArea;
+      // store chunks of the searchArea Item in local storage to not reach storage limit
+      localStorage.setItem(
+        'inputCoordinate',
+        JSON.stringify(searchArea.inputCoordinate)
+      );
+      localStorage.setItem('radius', JSON.stringify(searchArea.radius));
     });
+
     this._mapConfig$.subscribe(mapConfig => {
       localStorage.setItem('mapConfig', JSON.stringify(mapConfig));
       this._mapConfig = mapConfig;

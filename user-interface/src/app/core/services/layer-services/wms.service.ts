@@ -28,7 +28,7 @@ export class WmsService {
     map?.addLayer(rlpWMS_Lagebezeichnungen);
     map?.addLayer(rlpWMS_Flurstueck);
     map?.addLayer(rlpWMS_Umwelt);
-    //    map?.addLayer(this.berlinWMS_ALKIS);
+    //map?.addLayer(this.berlinWMS_ALKIS);
   }
 
   public toggleRLP_ALKIS(toggle: boolean) {

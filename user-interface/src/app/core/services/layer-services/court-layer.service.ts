@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CourtService } from '../court.service';
-import { Court, Fields, Geom, Geometry } from '../../models/court';
+import { Court, Fields, Geom, Geometry } from '../../models/data/court';
 import { Feature, View } from 'ol';
 import { Point, Polygon } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';

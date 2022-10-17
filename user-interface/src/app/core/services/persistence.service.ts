@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Project } from '../models/project';
+import { Project } from '../models/config/project';
 
 import {
   CollectionReference,

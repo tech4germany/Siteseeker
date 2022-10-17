@@ -6,8 +6,8 @@ import { MapService } from './map.service';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { environment } from '../../../environments/environment';
-import { Address } from '../models/address';
-import { SearchArea } from '../models/searcharea';
+import { Address } from '../models/data/address';
+import { SearchArea } from '../models/config/searcharea';
 import View from 'ol/View';
 
 @Injectable({
@@ -37,7 +37,7 @@ export class GeocodingService {
       authentication,
     });
     revGeocode.then(value => {
-      this.searchArea.address = <Address>value.address;
+      // this.searchArea.address = <Address>value.address;
     });
   }
 }

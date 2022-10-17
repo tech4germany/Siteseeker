@@ -14,8 +14,8 @@ import { SearchAreaService } from '../../core/services/layer-services/search-are
 import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
 import { WmsService } from '../../core/services/layer-services/wms.service';
 import { GemarkungenService } from '../../core/services/layer-services/gemarkungen.service';
-import { MapConfig } from '../../core/models/mapconfig';
-import { SearchArea } from '../../core/models/searcharea';
+import { MapConfig } from '../../core/models/config/mapconfig';
+import { SearchArea } from '../../core/models/config/searcharea';
 import View from 'ol/View';
 
 @Component({
@@ -39,7 +39,7 @@ export class MapComponent implements AfterViewInit {
     private searchAreaService: SearchAreaService,
     private courtLayerService: CourtLayerService,
     private wmsService: WmsService,
-    private wfsService: GemarkungenService
+    private gemarkungenService: GemarkungenService
   ) {
     // Get init values for configs
     this.mapConfig = new MapConfig([], 0);
@@ -65,7 +65,7 @@ export class MapComponent implements AfterViewInit {
     this.osmService.initOSMService(this.map);
     this.locationService.initLocationService(this.map, this.view);
     this.wmsService.initWMSService(this.map);
-    this.wfsService.initGemarkungenService(this.map, this.view);
+    this.gemarkungenService.initGemarkungenService(this.map, this.view);
     //this.courtLayerService.initCourtLayerService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
   }
