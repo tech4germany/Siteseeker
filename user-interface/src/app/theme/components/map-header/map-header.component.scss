@@ -5,7 +5,6 @@
   z-index: 1000;
 
   margin-top: 3vh;
-  padding: 5px 10px;
   margin-left: 1vw;
 
   text-shadow: 0 0px 6px white;
@@ -32,7 +31,6 @@
   right: 0;
   z-index: 1000;
   margin-top: 3vh;
-  padding: 5px 10px;
   margin-right: 1vw;
   width: 25%;
 }
@@ -95,11 +93,12 @@ img {
   margin-bottom: 4px;
 }
 
+.d-flex {
+  justify-content: flex-end;
+}
+
 .user-info {
   margin-right: 10px;
-  justify-items: center;
-  display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   align-self: center;
 
@@ -112,30 +111,17 @@ img {
   }
 
   .name {
-    height: 19px;
-    line-height: 19px;
     font-weight: 400;
-  }
-
-  .organisation {
-    height: 16px;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    text-align: right;
-
-    color: #000000;
-
-    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 4px 8px 4px 8px;
   }
 }
 
 
 .avatar {
   background-image: url('../../../../assets/sticker.png');
-  width: 50px;
-  height: 50px;
+  width: 36px;
+  height: 36px;
   background-size: cover;
   background-position: center;
   border-radius: 50%;
