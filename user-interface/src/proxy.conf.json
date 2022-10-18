@@ -26,11 +26,29 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/rlp/wfs": {
+  "/rlp/topo": {
+    "target": "https://www.geoportal.rlp.de/mapbender/php/mod_showMetadata.php/../wms.php?",
+    "secure": false,
+    "pathRewrite": {
+      "^/rlp/topo": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/rlp/wfs/verwaltungsgrenzen": {
     "target": "https://geo5.service24.rlp.de/wfs/verwaltungsgrenzen_rp.fcgi",
     "secure": false,
     "pathRewrite": {
-      "^/rlp/wfs": ""
+      "^/rlp/wfs/verwaltungsgrenzen": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/rlp/wfs/flurstuecke": {
+    "target": "https://geo5.service24.rlp.de/wfs/flurstueckssuche_rp.fcgi",
+    "secure": false,
+    "pathRewrite": {
+      "^/rlp/wfs/flurstuecke": ""
     },
     "changeOrigin": true,
     "logLevel": "debug"

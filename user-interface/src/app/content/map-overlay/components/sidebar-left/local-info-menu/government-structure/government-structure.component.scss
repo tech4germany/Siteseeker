@@ -1,33 +1,44 @@
-.details-card {
-  max-height: 75vh;
-  overflow: scroll;
+.card-title {
+  background-color: white;
+  width: 100%;
+
+  h5 {
+    margin: 0;
+  }
 
   .backButton {
     cursor: pointer;
   }
 }
 
-.info-container {
-  margin-bottom: 1vh;
 
-  .address {
-    margin-bottom: 1vh;
+.details-card {
+  max-height: 75vh;
+  overflow: scroll;
 
-    p {
-      margin: 0 5px 0 0 ;
+  .card-body {
+    .info-container {
+      margin-bottom: 1vh;
+
+      .address {
+        margin-bottom: 1vh;
+
+        p {
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .extraInformation {
+        margin-bottom: 1vh;
+      }
+
+      .badge {
+        margin-right: 5px;
+      }
     }
   }
-
-  .extraInformation {
-    margin-bottom: 1vh;
-  }
-
-
-  .badge {
-    margin-right: 5px;
-  }
-
 }
+
 
 .accordion {
   margin-bottom: 1vh !important;
@@ -36,4 +47,15 @@
     margin-right: 5px;
     min-width: 30%;
   }
+}
+
+.subheader {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  /* identical to box height */
+  color: #525252;
+  margin-bottom: 0;
 }

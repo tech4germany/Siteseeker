@@ -17,6 +17,7 @@ import { GemarkungenService } from '../../core/services/layer-services/gemarkung
 import { MapConfig } from '../../core/models/config/mapconfig';
 import { SearchArea } from '../../core/models/config/searcharea';
 import View from 'ol/View';
+import { FlurstueckService } from '../../core/services/layer-services/flurstueck.service';
 
 @Component({
   selector: 'app-map',
@@ -39,7 +40,8 @@ export class MapComponent implements AfterViewInit {
     private searchAreaService: SearchAreaService,
     private courtLayerService: CourtLayerService,
     private wmsService: WmsService,
-    private gemarkungenService: GemarkungenService
+    private gemarkungenService: GemarkungenService,
+    private flurstueckService: FlurstueckService
   ) {
     // Get init values for configs
     this.mapConfig = new MapConfig([], 0);
@@ -48,7 +50,6 @@ export class MapComponent implements AfterViewInit {
     // Update configs on change
     this.mapService.mapConfig$.subscribe((mapConfig: MapConfig) => {
       this.mapConfig = mapConfig;
-      console.log('Map Comp Config', this.view);
     });
     this.mapService.searchArea$.subscribe(
       (searchArea: SearchArea) => (this.searchArea = searchArea)
@@ -63,9 +64,11 @@ export class MapComponent implements AfterViewInit {
     // add layers
     this.satelliteService.initSatelliteService(this.map);
     this.osmService.initOSMService(this.map);
-    this.locationService.initLocationService(this.map, this.view);
     this.wmsService.initWMSService(this.map);
+    this.locationService.initLocationService(this.map, this.view);
     this.gemarkungenService.initGemarkungenService(this.map, this.view);
+    this.flurstueckService.initFlurstueckService(this.map, this.view);
+
     //this.courtLayerService.initCourtLayerService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
   }

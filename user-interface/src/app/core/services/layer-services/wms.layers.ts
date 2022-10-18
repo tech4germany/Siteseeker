@@ -62,6 +62,23 @@ export var rlpWMS_Lagebezeichnungen: TileLayer<any> = new TileLayer({
   visible: false,
 });
 
+// TODO: Not working - fix
+export var rlpWMS_Topo: TileLayer<any> = new TileLayer({
+  source: new TileWMS({
+    url: environment.apiRLPTopo,
+    params: {
+      LAYERS: 'wms_rp_dtk25',
+      TILED: true,
+      OVERLAY: true,
+      TRANSPARENT: true,
+    },
+    serverType: 'geoserver',
+    // Countries have transparency, so do not fade tiles:
+    transition: 0,
+  }),
+  visible: true,
+});
+
 // export var rlpWMS_Hintergrund: TileLayer<any> = new TileLayer({
 //   source: new TileWMS({
 //     url: 'apiRLPKataster',

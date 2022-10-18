@@ -3,6 +3,12 @@ import { WmsService } from './layer-services/wms.service';
 import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
 import { GemarkungenService } from './layer-services/gemarkungen.service';
+import { FlurstueckService } from './layer-services/flurstueck.service';
+import {
+  rlpWMS_Umwelt,
+  rlpWMS_Flurstueck,
+  rlpWMS_GebaeudeBauwerke,
+} from './layer-services/wms.layers';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +18,8 @@ export class LayersControlService {
     private wmsService: WmsService,
     private satelliteService: SatelliteService,
     private osmService: OpenStreetMapService,
-    private gemarkungenService: GemarkungenService
+    private gemarkungenService: GemarkungenService,
+    private flurstueckService: FlurstueckService
   ) {}
 
   /* -------------------- Layer Controls -------------------- */
@@ -44,8 +51,6 @@ export class LayersControlService {
 
   public extendedMapControl(
     value: Partial<{
-      liegenschaften: boolean | null;
-      nutzung: boolean | null;
       gebaeude: boolean | null;
       gemarkungen: boolean | null;
       flurstuecke: boolean | null;
@@ -53,17 +58,15 @@ export class LayersControlService {
     }>
   ) {
     // Toggle layers
-    if (value.liegenschaften !== undefined && value.liegenschaften !== null)
-      this.wmsService.toggleRLP_ALKIS(value.liegenschaften);
-    if (value.flurstuecke !== undefined && value.flurstuecke !== null)
-      this.wmsService.toggleRLP_Flurstuecke(value.flurstuecke);
+    if (value.flurstuecke !== undefined && value.flurstuecke !== null) {
+      this.wmsService.toggleLayer(value.flurstuecke, rlpWMS_Flurstueck);
+      this.flurstueckService.toggleFlurstueckLayer(value.flurstuecke);
+    }
     if (value.gebaeude !== undefined && value.gebaeude !== null)
-      this.wmsService.toggleRLP_GebaeudeBauwerke(value.gebaeude);
-    if (value.nutzung !== undefined && value.nutzung !== null)
-      this.wmsService.toggleRLP_Nutzung(value.nutzung);
+      this.wmsService.toggleLayer(value.gebaeude, rlpWMS_GebaeudeBauwerke);
     if (value.gemarkungen !== undefined && value.gemarkungen !== null)
       this.gemarkungenService.toggleGemarkungenLayer(value.gemarkungen);
     if (value.naturschutz !== undefined && value.naturschutz !== null)
-      this.wmsService.toggleRLP_Umwelt(value.naturschutz);
+      this.wmsService.toggleLayer(value.naturschutz, rlpWMS_Umwelt);
   }
 }

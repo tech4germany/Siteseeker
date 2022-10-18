@@ -1,66 +1,32 @@
-<div class="card details-card">
+<div class="card card-title">
   <div class="card-body">
-    <h4 class="card-title d-flex justify-content-between" (click)="closeGovernment()">
+    <h5 class="d-flex justify-content-between" (click)="close()">
       <div>
         <i class="bi bi-chevron-left backButton"></i>
         Lokale Verwaltung
       </div>
       <span class="badge rounded-pill text-bg-primary">{{this.searchArea.gemarkungen.length}}</span>
-    </h4>
+    </h5>
+  </div>
+</div>
+<div class="card details-card">
+
+  <div class="card-body">
     <div class="info-container">
-      <div *ngFor="let gemarkung of this.searchArea.gemarkungen">
-        <hr>
+      <div *ngFor="let gemarkung of this.searchArea.gemarkungen; let i = index">
+        <hr *ngIf="i !== 0">
         <h5>{{gemarkung.gemarkungsName}} {{gemarkung.gemarkungsNummer}}</h5>
-        <div class="accordion">
-          <ngb-accordion #acc="ngbAccordion">
-            <ngb-panel title="Flure" *ngIf="gemarkung.flure.length != 0">
-              <ng-template ngbPanelContent>
-                <span *ngFor="let flur of gemarkung.flure" class="badge rounded-pill text-bg-secondary">{{flur.flurName}}</span>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel title="Landkreis" *ngIf="gemarkung.landkreis">
-              <ng-template ngbPanelContent>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    Name: {{gemarkung.landkreis.kreisName}}
-                  </li>
-                  <li class="list-group-item">
-                    Kreisschlüssel: {{gemarkung.landkreis.kreisSchluessel}}
-                  </li>
-                  <li class="list-group-item">
-                    Kreistyp: {{gemarkung.landkreis.kreisTyp}}
-                  </li>
-                </ul>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel title="Verbandsgemeinde" *ngIf="gemarkung.verbandsgemeinde">
-              <ng-template ngbPanelContent>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    {{gemarkung.verbandsgemeinde.verbandsgemeindeName}}
-                  </li>
-                  <li class="list-group-item">
-                    Verbandgemeinde Nummer: {{gemarkung.verbandsgemeinde.verbandsgemeindeNummer}}
-                  </li>
-                </ul>
-              </ng-template>
-            </ngb-panel>
-            <ngb-panel title="Gemeinde" *ngIf="gemarkung.gemeinde">
-              <ng-template ngbPanelContent>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    {{gemarkung.gemeinde.gemeindeName}}
-                  </li>
-                  <li class="list-group-item">
-                    Gemeinde Schlüssel: {{gemarkung.gemeinde.gemeindeSchluessel}}
-                  </li>
-                  <li class="list-group-item">
-                    Gemeinde Typ: {{gemarkung.gemeinde.gemeindeTyp}}
-                  </li>
-                </ul>
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
+        <div>
+          <p class="subheader">Landkreis</p>
+          <p>{{gemarkung.landkreis.kreisName}}</p>
+        </div>
+        <div>
+          <p class="subheader">Verbandsgemeinde </p>
+          <p>{{gemarkung.verbandsgemeinde.verbandsgemeindeName}}</p>
+        </div>
+        <div>
+          <p class="subheader">Gemeinde</p>
+          <p>{{gemarkung.gemeinde.gemeindeName}}</p>
         </div>
 
         <ngb-accordion #acc="ngbAccordion">
@@ -93,15 +59,6 @@
                 </li>
                 <li class="list-group-item">
                   Katasteramt Nummer: {{gemarkung.katasteramt.katasterNummer}}
-                </li>
-              </ul>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel title="Finanzamt" *ngIf="gemarkung.finanzamt">
-            <ng-template ngbPanelContent>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  {{gemarkung.finanzamt.finanzamtName}}
                 </li>
               </ul>
             </ng-template>

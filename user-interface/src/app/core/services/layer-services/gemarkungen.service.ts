@@ -72,7 +72,7 @@ export class GemarkungenService {
 
   public getRLPData(extent: number[]): Observable<GeoJSON> {
     const api =
-      environment.apiRLPwfs +
+      environment.apiRLPwfsVerwaltungsgrenzen +
       '?service=WFS&' +
       'version=1.1.0&' +
       'request=GetFeature&' +

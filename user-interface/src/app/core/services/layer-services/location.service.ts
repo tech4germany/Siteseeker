@@ -33,7 +33,7 @@ export class LocationService {
 
     // handle geolocation error.
     geolocation.on('error', function (error) {});
-    geolocation.setTracking(true);
+    geolocation.setTracking(false);
 
     // Create ring like feature that shows the accuracy of location as a polygon
     // Also update the feature on change
@@ -78,7 +78,7 @@ export class LocationService {
     });
 
     // Add location layer to our map
-    map?.addLayer(locationLayer);
+    //map?.addLayer(locationLayer);
   }
 
   public getLocationData(): BehaviorSubject<Geolocation> {

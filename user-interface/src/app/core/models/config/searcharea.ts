@@ -13,6 +13,7 @@ import { Finanzamt } from '../data/finanzamt';
 import { Amtsgericht } from '../data/amtsgericht';
 import { CourtService } from '../../services/court.service';
 import { Court } from '../data/court';
+import { Flurstueck } from '../data/flurstueck';
 
 export class SearchArea {
   private _inputCoordinate: Coordinate;
@@ -20,12 +21,15 @@ export class SearchArea {
   private _radius: number;
   //private _address: Address;
   private _gemarkungen: Gemarkung[];
-
   private _gemarkungenGeoJSON?: GeoJSON;
+
+  private _flurstuecke: Flurstueck[];
+  private _flurstueckeGeoJSON?: GeoJSON;
 
   constructor(inputCoordinate: Coordinate, radius: number) {
     this._inputCoordinate = inputCoordinate;
     this._gemarkungen = [];
+    this._flurstuecke = [];
     this._coordinate = proj.transform(
       inputCoordinate,
       'EPSG:4326',
@@ -177,5 +181,21 @@ export class SearchArea {
         this._gemarkungen.push(gemarkung);
       }
     });
+  }
+
+  getFlurstueckeGeoJSON(): GeoJSON | undefined {
+    return this._flurstueckeGeoJSON;
+  }
+
+  setFlurstueckeGeoJSON(value: GeoJSON) {
+    this._flurstueckeGeoJSON = value;
+  }
+
+  get flurstuecke(): Flurstueck[] {
+    return this._flurstuecke;
+  }
+
+  set flurstuecke(value: Flurstueck[]) {
+    this._flurstuecke = value;
   }
 }

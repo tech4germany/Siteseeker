@@ -25,7 +25,7 @@ export class GovernmentStructureComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public closeGovernment() {
+  public close() {
     this.sidebarService.toggleGovernment();
   }
 }

@@ -19,7 +19,6 @@ export class SatelliteService {
       ],
       attributionsCollapsible: false,
       url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      maxZoom: 24,
     }),
     visible: false,
   });

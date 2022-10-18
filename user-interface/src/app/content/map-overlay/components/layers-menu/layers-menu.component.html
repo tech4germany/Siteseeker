@@ -4,20 +4,6 @@
       <h5 class="card-title">Informations-Ebenen</h5>
       <form [formGroup]="extendedMapControl">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" formControlName="liegenschaften" id="liegenschaft">
-          <label class="form-check-label" for="liegenschaft">
-            Liegenschaften
-          </label>
-        </div>
-
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" formControlName="nutzung" id="nutzung">
-          <label class="form-check-label" for="nutzung">
-            Nutzung
-          </label>
-        </div>
-
-        <div class="form-check">
           <input class="form-check-input" type="checkbox" formControlName="gebaeude" id="gebaeude">
           <label class="form-check-label" for="gebaeude">
             Gebaeude
@@ -68,7 +54,7 @@
           <input class="form-check-input" type="radio" formControlName="map"
                  id="topoMap" value="topo">
           <label class="form-check-label" for="topoMap">
-            Topografische Karte
+            Leere Karte
           </label>
         </div>
       </form>

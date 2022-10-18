@@ -1,4 +1,13 @@
-.list-group-item {
-  padding-left: unset;
-  padding-right: unset;
+.card {
+  margin-bottom: 1vh;
+
+  .card-title {
+    padding: 0 16px;
+  }
+
+  .card-body {
+    padding: 16px 0;
+  }
 }
+
+

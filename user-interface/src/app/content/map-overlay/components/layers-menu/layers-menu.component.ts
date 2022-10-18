@@ -16,8 +16,6 @@ export class LayersMenuComponent implements OnInit {
   });
 
   extendedMapControl = new FormGroup({
-    liegenschaften: new FormControl(false),
-    nutzung: new FormControl(false),
     gebaeude: new FormControl(false),
     gemarkungen: new FormControl(false),
     flurstuecke: new FormControl(false),

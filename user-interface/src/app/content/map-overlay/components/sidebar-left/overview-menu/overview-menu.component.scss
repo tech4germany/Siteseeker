@@ -1,12 +1,11 @@
-.card-top {
+.card {
   margin-bottom: 1vh;
-}
 
-.list-group-item {
-  padding-left: unset;
-  padding-right: unset;
-}
+  .card-title {
+    padding: 0 16px;
+  }
 
-.badge {
-
+  .card-body {
+    padding: 16px 0;
+  }
 }

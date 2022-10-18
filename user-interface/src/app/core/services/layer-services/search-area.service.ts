@@ -78,6 +78,8 @@ export class SearchAreaService {
       }),
     });
 
+    searchAreaLayer.setZIndex(999);
+    searchCoordinateLayer.setZIndex(1000);
     // add layers to map
     map?.addLayer(searchAreaLayer);
     map?.addLayer(searchCoordinateLayer);
