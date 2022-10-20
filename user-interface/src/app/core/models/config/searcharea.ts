@@ -19,7 +19,7 @@ export class SearchArea {
   private _inputCoordinate: Coordinate;
   private _coordinate: Coordinate;
   private _radius: number;
-  //private _address: Address;
+  private _address: Address;
   private _gemarkungen: Gemarkung[];
   private _gemarkungenGeoJSON?: GeoJSON;
 
@@ -36,7 +36,7 @@ export class SearchArea {
       'EPSG:3857'
     );
     this._radius = radius;
-    /*this._address = new Address(
+    this._address = new Address(
       '',
       '',
       '',
@@ -59,7 +59,7 @@ export class SearchArea {
       '',
       '',
       ''
-    );*/
+    );
   }
 
   get inputCoordinate(): Coordinate {
@@ -83,13 +83,13 @@ export class SearchArea {
     return this._coordinate;
   }
 
-  /*  get address(): Address {
+  get address(): Address {
     return this._address;
   }
 
   set address(value: Address) {
     this._address = value;
-  }*/
+  }
 
   get gemarkungen(): Gemarkung[] {
     return this._gemarkungen;

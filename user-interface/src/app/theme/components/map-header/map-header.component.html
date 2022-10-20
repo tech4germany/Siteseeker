@@ -1,16 +1,17 @@
 <div class="header-left">
   <p class="coordinate-display">
     <strong> <i class="bi bi-geo-alt-fill"></i>
-      {{ this.shortenDecimal(this.searchArea.inputCoordinate[0]) }}, {{this.shortenDecimal(this.searchArea.inputCoordinate[1])}}</strong>
+      {{ this.shortenDecimal(this.searchArea.inputCoordinate[0]) }}
+      , {{this.shortenDecimal(this.searchArea.inputCoordinate[1])}}</strong>
     |
     <strong>{{this.searchArea.radius}} Meter</strong>
     <i class="bi bi-pencil-fill pencilIcon" (click)="navigateToLandingpage()"></i>
   </p>
   <h1 class="display-1">
-<!--    {{this.searchArea.address.City}}-->
+    {{this.searchArea.address.City}}
   </h1>
   <h4 class="display-4">
-    <!--{{this.searchArea.address.Region}}-->
+    {{this.searchArea.address.Region}}
   </h4>
 </div>
 
@@ -22,7 +23,7 @@
       </div>
     </div>
     <div class="avatar border border-2 border-white"></div>
-<!--    <img class="align-self-start mr-5 img-thumbnail rounded-circle"-->
-<!--         src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">-->
+    <!--    <img class="align-self-start mr-5 img-thumbnail rounded-circle"-->
+    <!--         src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">-->
   </div>
 </div>

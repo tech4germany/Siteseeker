@@ -15,8 +15,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import Feature, { FeatureLike } from 'ol/Feature';
-import { Select } from 'ol/interaction';
-import { pointerMove } from 'ol/events/condition';
 import { Flurstueck } from '../../models/data/flurstueck';
 
 @Injectable({

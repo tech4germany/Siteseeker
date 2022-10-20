@@ -57,7 +57,7 @@ export class LandingPageComponent implements OnInit {
         this.coordinateForm.get('longitude')?.value,
         this.coordinateForm.get('latitude')?.value,
       ],
-      this.coordinateForm.get('radius')?.value
+      <number>this.coordinateForm.get('radius')?.value
     );
     this.router.navigateByUrl('/userspace/map');
   }

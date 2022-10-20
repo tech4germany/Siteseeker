@@ -1,18 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Coordinate } from 'ol/coordinate';
-import * as proj from 'ol/proj';
 import { HttpClient } from '@angular/common/http';
-import { WmsService } from './layer-services/wms.service';
-import { SatelliteService } from './layer-services/satellite.service';
 import { OpenStreetMapService } from './layer-services/open-street-map.service';
 import { SearchArea } from '../models/config/searcharea';
 import { MapConfig } from '../models/config/mapconfig';
 import View from 'ol/View';
-import { GemarkungenService } from './layer-services/gemarkungen.service';
-import { CourtService } from './court.service';
-import { Gemarkung } from '../models/data/gemarkung';
-import { GeoJSON } from 'ol/format';
+import { GeocodingService } from './geocoding.service';
+import { Address } from '../models/data/address';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +15,8 @@ import { GeoJSON } from 'ol/format';
 export class MapService {
   // Set base coords for initialisation of map
   baseCoordinate: Coordinate = [7.74005, 49.43937];
-  baseZoom: number = 15.5;
-  baseRadius: number = 1000;
+  baseZoom: number = 16;
+  baseRadius: number = 600;
 
   private _mapConfig$: BehaviorSubject<MapConfig>;
   private _mapConfig: MapConfig;
@@ -32,7 +27,8 @@ export class MapService {
 
   constructor(
     private httpClient: HttpClient,
-    private osmService: OpenStreetMapService
+    private osmService: OpenStreetMapService,
+    private geocodingService: GeocodingService
   ) {
     this.view = new View({
       center: this.baseCoordinate,
@@ -70,6 +66,13 @@ export class MapService {
     this._mapConfig$ = new BehaviorSubject<MapConfig>(this._mapConfig);
     this._searchArea$ = new BehaviorSubject(this._searchArea);
 
+    this.geocodingService
+      .reverseGeocode(this._searchArea.inputCoordinate)
+      .then(value => {
+        this._searchArea.address = <Address>value.address;
+        this._searchArea$.next(this._searchArea);
+      });
+
     // Update service and local storage on changes
     this._searchArea$.subscribe(searchArea => {
       this._searchArea = searchArea;
@@ -78,6 +81,7 @@ export class MapService {
         'inputCoordinate',
         JSON.stringify(searchArea.inputCoordinate)
       );
+      console.log('Radius', searchArea.radius);
       localStorage.setItem('radius', JSON.stringify(searchArea.radius));
     });
 
