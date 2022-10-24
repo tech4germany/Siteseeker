@@ -13,6 +13,13 @@ import { SignInComponent } from './authetication/sign-in/sign-in.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { RedirectGuard } from '../core/guards/redirect.guard';
 
+/**
+ * This is the routing configuration for the application.
+ * It is only used if the content module is lazily loaded int the app.routing-module.ts.
+ *
+ * The routing configuration utilizes hierarchical routes with route guards.
+ * Child routes are used for the integration of layouts for the app shell.
+ */
 const routes: Routes = [
   { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent, canActivate: [RedirectGuard] },

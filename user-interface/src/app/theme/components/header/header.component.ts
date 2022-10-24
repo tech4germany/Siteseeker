@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/utility-services/auth.servic
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
+/* Displays the header of the applications base layout */
 export class HeaderComponent {
   constructor(public authService: AuthService) {}
 

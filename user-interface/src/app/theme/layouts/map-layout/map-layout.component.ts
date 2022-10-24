@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-map-layout',
-  templateUrl: './map-layout.component.html',
-  styleUrls: ['./map-layout.component.scss']
+  template:
+    '<app-map-header></app-map-header>\n' + '<router-outlet></router-outlet>',
 })
-export class MapLayoutComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+/* The MapLayoutComponent is a layout component used in dynamic routing to render the app shell for the map routes */
+export class MapLayoutComponent {
+  constructor() {}
 }

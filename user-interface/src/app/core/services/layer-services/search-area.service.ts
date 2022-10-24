@@ -13,6 +13,11 @@ import { SearchArea } from '../../models/config/searcharea';
 @Injectable({
   providedIn: 'root',
 })
+/**
+ *  This service is responsible for the creation of the visual search area feature.
+ *
+ *  Disclaimer: It does NOT manage the search area object, this is managed in the map service.
+ */
 export class SearchAreaService {
   private searchArea: SearchArea;
 
@@ -24,6 +29,13 @@ export class SearchAreaService {
     );
   }
 
+  /**
+   * Creates a layer with a circular search area around the search coordinate and
+   * another layer with a pin at the search coordinate
+   *
+   * @param {Map | undefined} map - Map | undefined - the map object
+   * @param {View} view - View - the map's view
+   */
   public initSearchArea(map: Map | undefined, view: View) {
     // layer with pin at search coordinate
     const pinFeature = new Feature({
@@ -78,8 +90,10 @@ export class SearchAreaService {
       }),
     });
 
+    // set layering of the layers to be on top of everything else
     searchAreaLayer.setZIndex(999);
     searchCoordinateLayer.setZIndex(1000);
+
     // add layers to map
     map?.addLayer(searchAreaLayer);
     map?.addLayer(searchCoordinateLayer);

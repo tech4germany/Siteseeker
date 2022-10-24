@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { SearchArea } from '../../models/config/searcharea';
 import { MapConfig } from '../../models/config/mapconfig';
 import View from 'ol/View';
-import { GeocodingService } from '../data-services/geocoding.service';
+import { ReverseGeocodingService } from '../data-services/reverse-geocoding.service';
 import { Address } from '../../models/data/address';
 import { Layer } from 'ol/layer';
 import Map from 'ol/Map';
@@ -30,21 +30,25 @@ import * as proj from 'ol/proj';
   providedIn: 'root',
 })
 export class MapService {
-  // Set base coords for initialisation of map
+  /* The initial configuration of the map */
   baseCoordinate: Coordinate = [7.74005, 49.43937];
   baseZoom: number = 16;
   baseRadius: number = 600;
 
-  private _mapConfig$: BehaviorSubject<MapConfig>;
+  /* Global configuration of the current map state (zoom level and center coordinates) */
   private _mapConfig: MapConfig;
-  private _searchArea$: BehaviorSubject<SearchArea>;
-  private _searchArea: SearchArea;
+  private _mapConfig$: BehaviorSubject<MapConfig>;
 
+  /* Global configuration of our current search area. Includes all relevant data in the search area */
+  private _searchArea: SearchArea;
+  private _searchArea$: BehaviorSubject<SearchArea>;
+
+  /* Used to control current view of the map */
   private view: View;
 
   constructor(
     private httpClient: HttpClient,
-    private geocodingService: GeocodingService,
+    private geocodingService: ReverseGeocodingService,
     private gemarkungenService: GemarkungenService,
     private courtService: CourtService
   ) {
@@ -53,10 +57,13 @@ export class MapService {
       zoom: this.baseZoom,
     });
 
-    // The following part checks if state objects have been persisted in local storage
-    // If there are objects, it rebuilds the search area from the chunks and loads the observables
-    // with the appropriate objects
+    /*
+     * The following part checks if state objects have been persisted in local storage
+     * If there are objects, it rebuilds the search area from the chunks and loads the observables
+     * with the appropriate objects, emitting the saved state of the application to all other components.
+     */
 
+    /* Rebuild search area */
     let rebuildCoordinate: Coordinate = this.baseCoordinate;
     const storedCoordinate = localStorage.getItem('inputCoordinate');
     if (storedCoordinate) {
@@ -72,6 +79,7 @@ export class MapService {
     }
     this._searchArea = new SearchArea(rebuildCoordinate, rebuildRadius);
 
+    /* Rebuild map configuration */
     this._mapConfig = new MapConfig(
       proj.transform(rebuildCoordinate, 'EPSG:4326', 'EPSG:3857'),
       this.baseZoom
@@ -86,6 +94,7 @@ export class MapService {
     this._mapConfig$ = new BehaviorSubject<MapConfig>(this._mapConfig);
     this._searchArea$ = new BehaviorSubject(this._searchArea);
 
+    /* Call the geocoding service to resolve the saved coordinates to their actual address */
     this.geocodingService
       .reverseGeocode(this._searchArea.inputCoordinate)
       .then(value => {
@@ -93,7 +102,7 @@ export class MapService {
         this._searchArea$.next(this._searchArea);
       });
 
-    // Update service and local storage on changes
+    /* Update service state and local storage on changes */
     this._searchArea$.subscribe(searchArea => {
       this._searchArea = searchArea;
       // store chunks of the searchArea Item in local storage to not reach storage limit
@@ -111,12 +120,18 @@ export class MapService {
     });
   }
 
+  /**
+   * Takes a coordinate and a radius, then sets the search area to the coordinate and radius, and then it sets
+   * the map center to the coordinate
+   * @param {Coordinate} coordinate - Coordinate - The coordinate of the center of the search area.
+   * @param {number} radius - The radius of the search area in meters.
+   */
   public setSearchArea(coordinate: Coordinate, radius: number) {
     this._searchArea.inputCoordinate = coordinate;
     this._searchArea.radius = radius;
     this._searchArea$.next(this._searchArea);
 
-    this._mapConfig.center = coordinate;
+    this._mapConfig.center = this._searchArea.coordinate;
     this.mapConfig$.next(this._mapConfig);
   }
 
@@ -128,10 +143,20 @@ export class MapService {
     return this._searchArea$;
   }
 
+  /**
+   * If the toggle is true, set the layer to visible. If the toggle is false, set the layer to invisible
+   * @param {boolean} toggle - boolean - The state to toggle to
+   * @param {Layer} layer - Layer - The layer to toggle
+   */
   public toggleLayer(toggle: boolean, layer: Layer) {
     layer.setVisible(toggle);
   }
 
+  /**
+   * Adds the layers to the map
+   * @param {Map | undefined} map - The Map where the layers are added
+   * @param {View} view - View - the view of the map
+   */
   public initLayers(map: Map | undefined, view: View) {
     this.setGemarkungenSource(view);
     map?.addLayer(openstreetmapLayer);
@@ -142,7 +167,10 @@ export class MapService {
     map?.addLayer(rlpGemarkungenLayer);
   }
 
-  // Set the data source of the gemarkungen layer
+  /**
+   * Load the gemarkungen data for our search radius and set the data source of the gemarkungen layer
+   * @param {View} view - View - the current map view
+   */
   private setGemarkungenSource(view: View) {
     const resolutionAtEquator = view.getResolution() ?? 1;
     const pointResolution = view.getProjection().getPointResolutionFunc()(

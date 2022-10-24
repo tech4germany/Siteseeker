@@ -24,6 +24,14 @@ export class LayersControlService {
 
   /* -------------------- Layer Controls -------------------- */
 
+  /**
+   * This function takes the desired state of the base map as an argument and
+   * toggles the base map layers on and off based on the string value.
+   *
+   * Developer Note: This is ugly, would be nicer with enum or something more generic
+   *
+   * @param {string | undefined | null} map - string | undefined | null
+   */
   public baseMapControl(map: string | undefined | null) {
     switch (map) {
       case 'base':
@@ -49,6 +57,10 @@ export class LayersControlService {
     }
   }
 
+  /**
+   * Toggles the visibility of the layers in the map taht can be layered on to of each other (not the base maps)
+   * @param value - boolean values that specify the visibility state of the individual layers
+   */
   public extendedMapControl(
     value: Partial<{
       gebaeude: boolean | null;

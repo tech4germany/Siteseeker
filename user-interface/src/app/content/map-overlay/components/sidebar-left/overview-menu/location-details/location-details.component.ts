@@ -10,6 +10,10 @@ import { MapService } from '../../../../../../core/services/utility-services/map
   templateUrl: './location-details.component.html',
   styleUrls: ['./location-details.component.scss'],
 })
+
+/**
+ * Displays details on a selected flurstueck
+ */
 export class LocationDetailsComponent implements OnInit {
   selectedFlurstuecke: Flurstueck[] = [];
   searchArea: SearchArea;

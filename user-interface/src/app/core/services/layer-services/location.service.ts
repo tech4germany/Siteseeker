@@ -5,8 +5,8 @@ import Map from 'ol/Map';
 import Point from 'ol/geom/Point';
 import View from 'ol/View';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
-import { OSM, Vector as VectorSource } from 'ol/source';
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
+import { Vector as VectorSource } from 'ol/source';
+import { Vector as VectorLayer } from 'ol/layer';
 import { BehaviorSubject } from 'rxjs';
 import { Coordinate } from 'ol/coordinate';
 
@@ -20,6 +20,15 @@ export class LocationService {
 
   constructor() {}
 
+  /**
+   * Initialises the use of a browsers geolocation API as a layer on the map.
+   * Allows to display the current location in relation to other map features.
+   *
+   * Disclaimer: This feature is currently not used: Therefore tracking is disabled and the layer is not added to the map
+   *
+   * @param {Map | undefined} map - Map | undefined - The map on which we want to display the current location.
+   * @param {View} view - View - The view that the geolocation is tied to.
+   */
   public initLocationService(map: Map | undefined, view: View) {
     const geolocation = new Geolocation({
       // enableHighAccuracy must be set to true to have the heading value.

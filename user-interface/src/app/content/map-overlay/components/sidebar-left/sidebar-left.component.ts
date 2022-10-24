@@ -6,6 +6,7 @@ import { SidebarService } from '../../../../core/services/utility-services/sideb
   templateUrl: './sidebar-left.component.html',
   styleUrls: ['./sidebar-left.component.scss'],
 })
+/* Controls the sidebar widgets via the state management in the sidebar service */
 export class SidebarLeftComponent implements OnInit {
   displayDetails: boolean = false;
   displayGovernment: boolean = false;

@@ -14,14 +14,32 @@ import { Amtsgericht } from '../data/amtsgericht';
 import { Court } from '../data/court';
 import { Flurstueck } from '../data/flurstueck';
 
+/**
+ * The SearchArea class is the central object of the application.
+ * It acts as a local data store and is partially persisted in local storage to enable state persistence over reload.
+ * The SearchArea class contains all data that is associated with a search area.
+ * It also parses input geoJSON into associated objects for easier accessibility.
+ *
+ * Developer Note: This is only for prototypical design and should usually be persisted on a server side system. Not optimal, but it works
+ */
 export class SearchArea {
+  /* The input coordinate in standard lat lon projection format (EPSG:4326)*/
   private _inputCoordinate: Coordinate;
+
+  /* Coordinates in internally used EPSG:3857 projection format */
   private _coordinate: Coordinate;
+
+  /* Radius in meter */
   private _radius: number;
+
+  /* The address for our input coordinate resolved vby the geocoding service */
   private _address: Address;
+
+  /* Government borders fetched via the dataservice. These are resolved from geojson into objects in the setter method for teh geojson */
   private _gemarkungen: Gemarkung[];
   private _gemarkungenGeoJSON?: GeoJSON;
 
+  /* Flurstueck data resolved in the flurstueck service */
   private _flurstuecke: Flurstueck[];
   private _flurstueckeGeoJSON?: GeoJSON;
 
@@ -29,6 +47,7 @@ export class SearchArea {
     this._inputCoordinate = inputCoordinate;
     this._gemarkungen = [];
     this._flurstuecke = [];
+    /* It transforms the coordinates from the WGS84 system to the Web Mercator system. */
     this._coordinate = proj.transform(
       inputCoordinate,
       'EPSG:4326',
@@ -102,6 +121,11 @@ export class SearchArea {
     return this._gemarkungenGeoJSON;
   }
 
+  /**
+   * It takes a GeoJSON object and parses it into a list of Gemarkungen
+   * @param {GeoJSON} value - GeoJSON - The GeoJSON Object that is returned from the API
+   * @param {Court[]} [courts] - Court[]
+   */
   setGemarkungenGeoJSON(value: GeoJSON, courts?: Court[]) {
     this._gemarkungenGeoJSON = value;
 

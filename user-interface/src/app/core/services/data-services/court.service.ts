@@ -42,9 +42,9 @@ export class CourtService {
   }
 
   /**
-   * Get department data from teh GovData API
+   * Loads a local JSON file with all the courts in Rhineland-Palatinate and parses them into custom court objects
    *
-   * @returns an Observable wrapping a Department array
+   * @returns An observable of an array of Court objects.
    */
   private getCourts(): Observable<Court[]> {
     return this.httpClient.get<Court[]>(environment.courtDataApi).pipe(
@@ -53,6 +53,12 @@ export class CourtService {
     );
   }
 
+  /**
+   * Find a court in the court data by its name
+   *
+   * @param {string} courtName - string - the name of the court you want to find
+   * @returns The first court that matches the courtName.
+   */
   public findCourtByName(courtName: string): Court | undefined {
     return this.courts.find((currCourt: Court) =>
       currCourt.fields.gericht.includes(courtName)

@@ -11,6 +11,11 @@ import { GeoJSON } from 'ol/format';
 export class GemarkungenService {
   constructor(private httpClient: HttpClient) {}
 
+  /**
+   * It fetches local government border data from the RLP Kataster WFS service and returns it as a GeoJSON object
+   * @param {number[]} extent - the extent of the map in EPSG:3857
+   * @returns Observable<GeoJSON>
+   */
   public getRLPData(extent: number[]): Observable<GeoJSON> {
     const api =
       environment.apiRLPwfsVerwaltungsgrenzen +

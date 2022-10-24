@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { SearchArea } from '../../models/config/searcharea';
 import { Vector as VectorSource } from 'ol/source';
 import { Layer, Vector as VectorLayer } from 'ol/layer';
-import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { MapService } from '../utility-services/map.service';
 import { HttpClient } from '@angular/common/http';
-import { CourtService } from '../data-services/court.service';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
@@ -13,13 +12,14 @@ import { Circle } from 'ol/geom';
 import { GeoJSON } from 'ol/format';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import Feature, { FeatureLike } from 'ol/Feature';
 import { Flurstueck } from '../../models/data/flurstueck';
 
 @Injectable({
   providedIn: 'root',
 })
+/* Service to get the flurstuecke data from the RLP WFS and to manage the flurstuecke layer */
 export class FlurstueckService {
   // Global state
   private searchArea: SearchArea;
@@ -61,18 +61,6 @@ export class FlurstueckService {
       }),
     }),
   });
-  private hoverHighlight = new Style({
-    image: new CircleStyle({
-      radius: 6,
-      fill: new Fill({
-        color: '#cc8533',
-      }),
-      stroke: new Stroke({
-        color: '#ffffff',
-        width: 1,
-      }),
-    }),
-  });
 
   constructor(private mapService: MapService, private httpClient: HttpClient) {
     this.searchArea = new SearchArea([], 0);
@@ -81,6 +69,14 @@ export class FlurstueckService {
     );
   }
 
+  /**
+   * Fetches the flurstuecke data from the RLP API based on the bbox of the search area,
+   * converts the features to flurstuecke objects, adds the features to the vector layer,
+   * adds the interactions to select flurstuecke and updates the global selected state
+   *
+   * @param {Map | undefined} map - Map | undefined - The map where the flurstuecke layer is added
+   * @param {View} view - View - The map view
+   */
   public initFlurstueckService(map: Map | undefined, view: View) {
     // Circle radius calculation
     const resolutionAtEquator = view.getResolution() ?? 1;
@@ -131,6 +127,11 @@ export class FlurstueckService {
     });
   }
 
+  /**
+   * It takes an extent (a bounding box) and fetches flurstuecke data for that extent as a GeoJSON object from the RLP kataster
+   * @param {number[]} extent - the extent of the map in EPSG:3857
+   * @returns GeoJSON
+   */
   public getRLPFlurstueckeData(extent: number[]): Observable<GeoJSON> {
     const api =
       environment.apiRLPwfsFlurstuecke +
@@ -149,6 +150,11 @@ export class FlurstueckService {
       .pipe(catchError(this.handleError<GeoJSON>('getRLPData')));
   }
 
+  /**
+   * It takes an array of features and returns an array of Flurstueck objects
+   * @param {Feature[]} features - Feature[]
+   * @returns An array of Flurstueck objects.
+   */
   private featuresToFlurstuecke(features: Feature[]): Flurstueck[] {
     let flurstuecke: Flurstueck[] = [];
     features.forEach((feature: Feature) => {
@@ -187,6 +193,10 @@ export class FlurstueckService {
     this._selectedFlurstuecke$ = value;
   }
 
+  /**
+   * This function sets the visibility of the flurstuecke layer to the value of the toggle parameter
+   * @param {boolean} toggle - boolean - true to show the layer, false to hide it
+   */
   public toggleFlurstueckLayer(toggle: boolean) {
     this.flurstuecke.setVisible(toggle);
   }

@@ -7,8 +7,6 @@ import {
 } from '@angular/forms';
 import { MapService } from '../../core/services/utility-services/map.service';
 import { Router } from '@angular/router';
-import { PersistenceService } from '../../core/services/data-services/persistence.service';
-import { Project } from '../../core/models/config/project';
 
 @Component({
   selector: 'app-landing-page',

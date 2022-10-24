@@ -1,8 +1,14 @@
 import { Coordinate } from 'ol/coordinate';
-import View from 'ol/View';
 
+/**
+ * The configuration object for the map.
+ * Using a custom object for this and not the open layers view object to easily persist the map state in local storage.
+ */
 export class MapConfig {
+  /* The current center of the map */
   private _center: Coordinate;
+
+  /* The current zoom level of the map */
   private _zoom: number;
 
   constructor(center: Coordinate, zoom: number) {

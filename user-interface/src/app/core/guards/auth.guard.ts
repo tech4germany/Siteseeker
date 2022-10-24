@@ -12,6 +12,7 @@ import { AuthService } from '../services/utility-services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
+/* If the user is not logged in, redirect to the sign-in page */
 export class AuthGuard implements CanActivate {
   constructor(public authService: AuthService, public router: Router) {}
 
