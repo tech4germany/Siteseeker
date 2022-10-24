@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import { MapService } from '../map.service';
+import { MapService } from '../utility-services/map.service';
 import Map from 'ol/Map';
 import { Feature, View } from 'ol';
 import { Circle, Point } from 'ol/geom';

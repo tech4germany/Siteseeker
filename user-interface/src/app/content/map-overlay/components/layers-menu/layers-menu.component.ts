@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MapService } from 'src/app/core/services/map.service';
-import { LayersControlService } from '../../../../core/services/layers-control.service';
+import { MapService } from 'src/app/core/services/utility-services/map.service';
+import { LayersControlService } from '../../../../core/services/utility-services/layers-control.service';
 
 @Component({
   selector: 'app-layers-menu',

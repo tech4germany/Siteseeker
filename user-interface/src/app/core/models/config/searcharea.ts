@@ -11,7 +11,6 @@ import { Verbandsgemeinde } from '../data/verbandsgemeinde';
 import { Katasteramt } from '../data/katasteramt';
 import { Finanzamt } from '../data/finanzamt';
 import { Amtsgericht } from '../data/amtsgericht';
-import { CourtService } from '../../services/court.service';
 import { Court } from '../data/court';
 import { Flurstueck } from '../data/flurstueck';
 

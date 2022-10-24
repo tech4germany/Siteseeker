@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Coordinate } from 'ol/coordinate';
 import { BehaviorSubject } from 'rxjs';
-import { MapService } from './map.service';
+import { MapService } from '../utility-services/map.service';
 
 import {
   IReverseGeocodeResponse,
   reverseGeocode,
 } from '@esri/arcgis-rest-geocoding';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
-import { environment } from '../../../environments/environment';
-import { Address } from '../models/data/address';
-import { SearchArea } from '../models/config/searcharea';
+import { environment } from '../../../../environments/environment';
+import { Address } from '../../models/data/address';
+import { SearchArea } from '../../models/config/searcharea';
 import View from 'ol/View';
 
 @Injectable({

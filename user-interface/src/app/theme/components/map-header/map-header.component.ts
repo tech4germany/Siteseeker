@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../../core/services/map.service';
-import { GeocodingService } from '../../../core/services/geocoding.service';
+import { MapService } from '../../../core/services/utility-services/map.service';
+import { GeocodingService } from '../../../core/services/data-services/geocoding.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/utility-services/auth.service';
 import { SearchArea } from '../../../core/models/config/searcharea';
 
 @Component({

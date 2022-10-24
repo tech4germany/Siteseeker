@@ -19,16 +19,16 @@ import { environment } from '../environments/environment';
 import { ThemeModule } from './theme/theme.module';
 import { ContentModule } from './content/content.module';
 import { CoreModule } from './core/core.module';
-import { AuthService } from './core/services/auth.service';
+import { AuthService } from './core/services/utility-services/auth.service';
 
 const MAIN_MODULES = [ThemeModule, ContentModule, CoreModule.forRoot()];
 
 const FIREBASE_MODULES = [
-  AngularFireModule.initializeApp(environment.firebaseConfig),
   AngularFireAuthModule,
   AngularFirestoreModule,
   AngularFireStorageModule,
   AngularFireDatabaseModule,
+  AngularFireModule.initializeApp(environment.firebaseConfig),
 ];
 
 @NgModule({

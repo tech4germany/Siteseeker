@@ -6,14 +6,9 @@ import {
 } from '@angular/core';
 import { Map } from 'ol';
 
-import { MapService } from '../../core/services/map.service';
+import { MapService } from '../../core/services/utility-services/map.service';
 import { LocationService } from '../../core/services/layer-services/location.service';
-import { SatelliteService } from '../../core/services/layer-services/satellite.service';
-import { OpenStreetMapService } from '../../core/services/layer-services/open-street-map.service';
 import { SearchAreaService } from '../../core/services/layer-services/search-area.service';
-import { CourtLayerService } from '../../core/services/layer-services/court-layer.service';
-import { WmsService } from '../../core/services/layer-services/wms.service';
-import { GemarkungenService } from '../../core/services/layer-services/gemarkungen.service';
 import { MapConfig } from '../../core/models/config/mapconfig';
 import { SearchArea } from '../../core/models/config/searcharea';
 import View from 'ol/View';
@@ -34,14 +29,9 @@ export class MapComponent implements AfterViewInit {
     private zone: NgZone,
     private cd: ChangeDetectorRef,
     private mapService: MapService,
+    private flurstueckService: FlurstueckService,
     private locationService: LocationService,
-    private satelliteService: SatelliteService,
-    private osmService: OpenStreetMapService,
-    private searchAreaService: SearchAreaService,
-    private courtLayerService: CourtLayerService,
-    private wmsService: WmsService,
-    private gemarkungenService: GemarkungenService,
-    private flurstueckService: FlurstueckService
+    private searchAreaService: SearchAreaService
   ) {
     // Get init values for configs
     this.mapConfig = new MapConfig([], 0);
@@ -62,20 +52,23 @@ export class MapComponent implements AfterViewInit {
     }
     this.view = this.map?.getView()!;
     // add layers
-    this.satelliteService.initSatelliteService(this.map);
-    this.osmService.initOSMService(this.map);
-    this.wmsService.initWMSService(this.map);
-    this.locationService.initLocationService(this.map, this.view);
-    this.gemarkungenService.initGemarkungenService(this.map, this.view);
     this.flurstueckService.initFlurstueckService(this.map, this.view);
-
-    //this.courtLayerService.initCourtLayerService(this.map, this.view);
+    this.mapService.initLayers(this.map, this.view);
+    this.locationService.initLocationService(this.map, this.view);
     this.searchAreaService.initSearchArea(this.map, this.view);
+    this.view.on('change:resolution', () => {
+      this.mapConfig.zoom = this.view.getZoom()!;
+      this.mapService.mapConfig$.next(this.mapConfig);
+    });
+    this.view.on('change:center', () => {
+      this.mapConfig.center = this.view.getCenter()!;
+      this.mapService.mapConfig$.next(this.mapConfig);
+    });
   }
 
   private initMap(): void {
     this.view = new View({
-      center: this.searchArea.coordinate,
+      center: this.mapConfig.center,
       zoom: this.mapConfig.zoom,
     });
 

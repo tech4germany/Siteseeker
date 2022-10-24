@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchArea } from '../../../../../../core/models/config/searcharea';
-import { SidebarService } from '../../../../../../core/services/sidebar.service';
-import { MapService } from '../../../../../../core/services/map.service';
+import { SidebarService } from '../../../../../../core/services/utility-services/sidebar.service';
+import { MapService } from '../../../../../../core/services/utility-services/map.service';
 
 @Component({
   selector: 'app-infrastructure-information',

@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { SidebarService } from '../../../../../../core/services/sidebar.service';
+import { SidebarService } from '../../../../../../core/services/utility-services/sidebar.service';
 import { Flurstueck } from '../../../../../../core/models/data/flurstueck';
 import { SearchArea } from '../../../../../../core/models/config/searcharea';
 import { FlurstueckService } from '../../../../../../core/services/layer-services/flurstueck.service';
-import { MapService } from '../../../../../../core/services/map.service';
+import { MapService } from '../../../../../../core/services/utility-services/map.service';
 
 @Component({
   selector: 'app-location-details',

@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { of, Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { GeoJSON } from 'ol/format';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
+export class GemarkungenService {
   constructor(private httpClient: HttpClient) {}
 
-  /**
-   * Get department data from teh GovData API
-   *
-   * @returns an Observable wrapping a Department array
-   */
-  // public getDepartments(): Observable<Department[]> {
-  //   return this.httpClient
-  //     .get<Department[]>(this.GovDataAPI)
-  //     .pipe(
-  //       tap((_) => console.log(`fetched Departments`)),
-  //       catchError(this.handleError<Department[]>('getDepartments'))
-  //     );
-  // }
+  public getRLPData(extent: number[]): Observable<GeoJSON> {
+    const api =
+      environment.apiRLPwfsVerwaltungsgrenzen +
+      '?service=WFS&' +
+      'version=1.1.0&' +
+      'request=GetFeature&' +
+      'typename=vermkv:fluren_rlp&' +
+      'outputFormat=geojson&' +
+      'srsname=EPSG:3857&' +
+      'bbox=' +
+      extent.join(',') +
+      ',EPSG:3857';
+
+    return this.httpClient.get<GeoJSON>(api).pipe(
+      tap(_ => console.log(`fetched data`)),
+      catchError(this.handleError<GeoJSON>('getRLPData'))
+    );
+  }
 
   /**
    * Handle Http operation that failed.

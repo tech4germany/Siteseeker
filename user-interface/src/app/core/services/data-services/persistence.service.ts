@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Project } from '../models/config/project';
+import { Project } from '../../models/config/project';
 
 import {
   CollectionReference,
@@ -17,10 +16,6 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import BaseLayer from 'ol/layer/Base';
-import { Collection } from 'ol';
-import { MapService } from './map.service';
-import { WmsService } from './layer-services/wms.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,11 +23,7 @@ import { WmsService } from './layer-services/wms.service';
 export class PersistenceService {
   private projectCollection: CollectionReference<DocumentData>;
 
-  constructor(
-    private readonly firestore: Firestore,
-    private mapService: MapService,
-    private wmsService: WmsService
-  ) {
+  constructor(private readonly firestore: Firestore) {
     this.projectCollection = collection(this.firestore, 'projects');
   }
 

@@ -5,8 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MapService } from '../../core/services/map.service';
+import { MapService } from '../../core/services/utility-services/map.service';
 import { Router } from '@angular/router';
+import { PersistenceService } from '../../core/services/data-services/persistence.service';
+import { Project } from '../../core/models/config/project';
 
 @Component({
   selector: 'app-landing-page',
@@ -60,5 +62,9 @@ export class LandingPageComponent implements OnInit {
       <number>this.coordinateForm.get('radius')?.value
     );
     this.router.navigateByUrl('/userspace/map');
+  }
+
+  createProject() {
+    // this.persistenceService.create(new Project(1));
   }
 }

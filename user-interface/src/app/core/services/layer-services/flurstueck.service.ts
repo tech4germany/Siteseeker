@@ -3,9 +3,9 @@ import { SearchArea } from '../../models/config/searcharea';
 import { Vector as VectorSource } from 'ol/source';
 import { Layer, Vector as VectorLayer } from 'ol/layer';
 import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
-import { MapService } from '../map.service';
+import { MapService } from '../utility-services/map.service';
 import { HttpClient } from '@angular/common/http';
-import { CourtService } from '../court.service';
+import { CourtService } from '../data-services/court.service';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
@@ -107,16 +107,6 @@ export class FlurstueckService {
       map?.addLayer(this.flurstuecke);
 
       // Add interactions
-      /*
-      // Change Feature style on hover
-      const hover = new Select({
-        condition: pointerMove,
-        layers: [this.flurstuecke],
-        style: this.hoverHighlight,
-      });
-      map?.addInteraction(hover);
-*/
-
       // Select multiple
       map?.on('singleclick', e => {
         map.forEachFeatureAtPixel(e.pixel, (f: FeatureLike, l: Layer) => {
