@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+
+}
+
+body {
+  box-sizing: inherit;
+}
+
+@font-face {
+  font-family: 'Franchise-Free-Bold';
+  src: url('./assets/Typo/franchise/Franchise-Free-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Georgia';
+  src: url('./assets/Typo/Georgia.ttf') format('truetype');
+}
