@@ -51,34 +51,43 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 
 
+## System Architecture
+![](Siteseeker_Deployment_Diagram.png)
 
-### Dependencies
-#### Map Framework:
-The application heavily relies on the map framework [Openlayers](https://openlayers.org/) for displaying and manipulating geo data. 
+The Siteseeker Prototype consumes data from other outside services and uses a map framework to visualize the data in an Angular based Web App. In the following we want to elaborate on the different components that we utilised, which are displayed in the deployment diagram above.  
 
-#### Geo Data Sources: 
+### Angular & UI Library
+We use the web application framework [Angular](https://angular.io/) as the base platform for our web application. It provides us with a framework for routing and bundling the application, and delivers a rich ecosystem of tools and libraries.  
+
+For component styling and icons we utilise [Bootstrap 5](https://getbootstrap.com/docs/5.2/getting-started/introduction/) and [Bootstrap icons](https://icons.getbootstrap.com/) .
+
+### Map Framework
+The application heavily relies on the map framework [Openlayers](https://openlayers.org/) for displaying and manipulating geo data. It makes it possible to layer different maps and view over one another to build a composite view. 
+
+### Geo Data Sources
 For the base maps the application relies on data from [OpenStreetMap](https://www.openstreetmap.org/#map=14/50.8061/7.6028) as well as satellite imagery from [ArcGIS](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9). Further more we utilise the open APIs of the local [cadastre of Rhineland-Palatinate](https://www.geoportal.rlp.de/) to query maps and metadata on public infrastructure, protected areas, etc.
 
-#### Reverse Geocoding:
+### Reverse Geocoding
 To resolve coordinates to addresses, we utilise reverse geocoding. For this we call the [ArcGIS Geocoding Service](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm).
 
-#### UI Library
-For component styling and icons we utilise [Bootstrap 5](https://getbootstrap.com/docs/5.2/getting-started/introduction/) and [Bootstrap icons](https://icons.getbootstrap.com/) .
 
 ### API types
 The application connects to different types of APIs to ingest data:
-- [RESTful](): Used for manuel queries of metadata. Returned data is in [JSON]() or [GeoJSON]() format
-- [WebMapService](): Used to ingest pre-rendered map data in image format. Reequest replies are in XML format
-- [WebFeatureService](): Used to query vector format data and metadata. Request replies are in mostly in GeoJSON or in [GML]().
+- [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer): Used for manuel queries of metadata. Returned data is in [JSON](https://en.wikipedia.org/wiki/JSON) or [GeoJSON](https://en.wikipedia.org/wiki/GeoJSON) format
+- [WebMapService](https://en.wikipedia.org/wiki/Web_Map_Service): Used to ingest pre-rendered map data in image format. Reequest replies are in XML format
+- [WebFeatureService](https://en.wikipedia.org/wiki/Web_Feature_Service): Used to query vector format data and metadata. Request replies are in mostly in GeoJSON or in [GML](https://en.wikipedia.org/wiki/Geography_Markup_Language).
 
-All API calls are handles by services in the [core module](user-interface/src/app/core/services). 
+All API calls are handled by services in the [core module](user-interface/src/app/core/services). 
 
 ### Proxy
-To work around Cross-Origin-Request-Blocking by external servers (e.g. the cadastre servers, where we cannot change the CORS policy), we utilize a proxy in local development to change the request origin. The proxy configuration can be found at ``user-interface/src/proxy.conf.json``.  
+To work around [Cross-Origin-Request-Blocking](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) by external servers (e.g. the cadastre servers, where we cannot change the CORS policy), we utilize a proxy in local development to change the request origin. The proxy configuration can be found at ``user-interface/src/proxy.conf.json``.  
 
 ## Deployment
 For deployment of the prototype, we use [Google Firebase Hosting](https://firebase.google.com/products/hosting). Make sure you have registered your app with firebase as explained in the Quick start section.
 Then for deployment follow these steps:
 - Run `ng build` to build the project. The build artifacts will be stored in the `dist/user-interface` directory.
 - Run `firebase deploy` to deploy the app to firebase
+
+# Roadmap
+For an elaborate Roadmap on how this prototype should progress into a full-blown application, we ask you to please have a look at the issues in this repository. However, we are giving a brief overview on what should happen in the future here. 
 
