@@ -1,0 +1,24 @@
+<nav class="navbar sticky-top navbar-dark header">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img
+        src="../../../../assets/BMDV-Logo.png"
+        class="rounded float-start"
+        alt="..."/>
+    </a>
+
+    <div *ngIf="authService.userData as user">
+      <div class="d-flex">
+        <div class="user-info">
+          <div class="name">
+            {{(user.displayName) ? user.displayName : 'User'}}
+          </div>
+          <div class="organisation">
+            {{user.email}}
+          </div>
+        </div>
+        <div class="avatar border border-2 border-white"></div>
+      </div>
+    </div>
+  </div>
+</nav>

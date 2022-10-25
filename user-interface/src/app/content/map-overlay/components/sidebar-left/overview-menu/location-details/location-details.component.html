@@ -1,0 +1,56 @@
+<div class="card card-title">
+  <div class="card-body">
+    <h5 class="card-title"><i class="bi bi-chevron-left backButton" (click)="closeDetail()"></i>
+      Markierungen: {{selectedFlurstuecke.length}}</h5>
+  </div>
+</div>
+
+<div class="card details-card">
+  <div class="card-body">
+    <div *ngFor="let flurstueck of this.selectedFlurstuecke; let i = index" class="info-container">
+      <hr *ngIf="i !== 0">
+      <h5>Flurstück {{flurstueck.zaehler}}/{{flurstueck.nenner}}</h5>
+      <div class="address">
+        <h6>Adresse</h6>
+        <div class="d-flex">
+          <p class="streetName">{{flurstueck.lage}}</p>
+          <!--     <p class="streetNumber">43A</p>-->
+        </div>
+        <div class="d-flex">
+          <!--
+                    <p class="postcode">15755</p>
+          -->
+          <p class="cityName">{{flurstueck.gemeinde_bezeichnung}}</p>
+        </div>
+      </div>
+      <div>
+        <h6>Gemarkung</h6>
+        <div class="d-flex">
+          <p class="streetName">{{flurstueck.land}}{{flurstueck.gemarkung}}</p>
+        </div>
+      </div>
+      <div class="extraInformation">
+        <h6>Zusatzinformationen</h6>
+        <ul>
+          <li>
+            Öffentliche Liegenschaft (Kommune)
+          </li>
+          <li>
+            Schule
+          </li>
+          <li>
+            <a href="https://www.rs-lahnstein.de/">www.rs-lahnstein.de/</a>
+          </li>
+        </ul>
+      </div>
+      <div class="infrastructure">
+        <h6>Vorhandene Infrastruktur</h6>
+        <div class="d-flex">
+          <span class="badge rounded-pill text-bg-success"><i class="bi bi-check-circle"></i> Strom</span>
+          <span class="badge rounded-pill text-bg-danger"><i class="bi bi-x-circle"></i> Glasfaser</span>
+          <span class="badge rounded-pill text-bg-success"><i class="bi bi-check-circle"></i> Zufahrt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+.header-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  margin-top: 3vh;
+  margin-left: 1vw;
+
+  text-shadow: 0 0px 6px white;
+
+  p {
+    .pencilIcon {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .pencilIcon:hover {
+      color: #004B76;
+    }
+  }
+}
+
+.inverted {
+  mix-blend-mode: darken;
+}
+
+.header-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: 3vh;
+  margin-right: 1vw;
+  width: 25%;
+}
+
+img {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  padding: 0.5%;
+  padding-bottom: 0%;
+  width: 50px;
+  height: 50px;
+}
+
+.header {
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+}
+
+
+.display-1 {
+  width: min-content;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 38px;
+  color: #000000;
+  margin-bottom: 4px;
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.display-4 {
+  width: min-content;
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+
+  color: #000000;
+
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.coordinate-display {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #000000;
+
+  padding: 4px 8px 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+}
+
+.d-flex {
+  justify-content: flex-end;
+}
+
+.user-info {
+  margin-right: 10px;
+  flex-direction: column;
+  align-self: center;
+
+  div {
+    color: black;
+    margin: 0;
+    text-align: right;
+    font-family: "Open Sans", serif;
+    font-size: 14px;
+  }
+
+  .name {
+    font-weight: 400;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 4px 8px 4px 8px;
+  }
+}
+
+
+.avatar {
+  background-image: url('../../../../assets/sticker.png');
+  width: 36px;
+  height: 36px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+

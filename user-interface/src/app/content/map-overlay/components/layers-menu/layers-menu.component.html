@@ -1,0 +1,71 @@
+<div class="layer-menu">
+  <div *ngIf="isMenuOpen" class="card layers-card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Informations-Ebenen</h5>
+      <form [formGroup]="extendedMapControl">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="gebaeude" id="gebaeude">
+          <label class="form-check-label" for="gebaeude">
+            Gebaeude
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="gemarkungen" id="gemarkungen">
+          <label class="form-check-label" for="gemarkungen">
+            Gemarkungen
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="flurstuecke" id="flurstuecke">
+          <label class="form-check-label" for="flurstuecke">
+            Flurstuecke
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="naturschutz" id="naturschutz">
+          <label class="form-check-label" for="naturschutz">
+            Naturschutz
+          </label>
+        </div>
+
+      </form>
+
+
+      <h5 class="card-title">Karten-Stil</h5>
+      <form [formGroup]="baseMapControl">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="baseMap" value="base">
+          <label class="form-check-label" for="baseMap">
+            Basis Karte
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="satelliteMap" value="satellite">
+          <label class="form-check-label" for="satelliteMap">
+            Satelliten Karte
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" formControlName="map"
+                 id="topoMap" value="topo">
+          <label class="form-check-label" for="topoMap">
+            Leere Karte
+          </label>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+
+  <button type="button" class="btn btn-light layer-button" (click)="toggleLayersButton()">
+    <i class="bi bi-layers-fill"></i>
+  </button>
+</div>
+
+

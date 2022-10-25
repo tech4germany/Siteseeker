@@ -1,0 +1,70 @@
+<div class="card card-title">
+  <div class="card-body">
+    <h5 class="d-flex justify-content-between" (click)="close()">
+      <div>
+        <i class="bi bi-chevron-left backButton"></i>
+        Lokale Verwaltung
+      </div>
+      <span class="badge rounded-pill text-bg-primary">{{this.searchArea.gemarkungen.length}}</span>
+    </h5>
+  </div>
+</div>
+<div class="card details-card">
+
+  <div class="card-body">
+    <div class="info-container">
+      <div *ngFor="let gemarkung of this.searchArea.gemarkungen; let i = index">
+        <hr *ngIf="i !== 0">
+        <h5>{{gemarkung.gemarkungsName}} {{gemarkung.gemarkungsNummer}}</h5>
+        <div>
+          <p class="subheader">Landkreis</p>
+          <p>{{gemarkung.landkreis.kreisName}}</p>
+        </div>
+        <div>
+          <p class="subheader">Verbandsgemeinde </p>
+          <p>{{gemarkung.verbandsgemeinde.verbandsgemeindeName}}</p>
+        </div>
+        <div>
+          <p class="subheader">Gemeinde</p>
+          <p>{{gemarkung.gemeinde.gemeindeName}}</p>
+        </div>
+
+        <ngb-accordion #acc="ngbAccordion">
+          <ngb-panel title="Amtsgericht / Grundbuchamt" *ngIf="gemarkung.amtsgericht">
+            <ng-template ngbPanelContent>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  {{gemarkung.amtsgericht.amtsgerichtName}}
+                </li>
+                <li class="list-group-item">
+                  {{gemarkung.amtsgericht.strasse}}, {{gemarkung.amtsgericht.ort}} {{gemarkung.amtsgericht.plz}}
+                  , {{gemarkung.amtsgericht.bundesland}}
+                </li>
+                <li class="list-group-item">
+                  Fax: {{gemarkung.amtsgericht.telefax}} <br>
+                  Tel.: {{gemarkung.amtsgericht.telefon}} <br>
+                  E-Mail: <a href="mailto:{{gemarkung.amtsgericht.e_mail}}">{{gemarkung.amtsgericht.e_mail}}</a>
+                </li>
+                <li class="list-group-item">
+                  <a href="{{gemarkung.amtsgericht.webseite}}">{{gemarkung.amtsgericht.webseite}}</a>
+                </li>
+              </ul>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel title="Katasteramt" *ngIf="gemarkung.katasteramt">
+            <ng-template ngbPanelContent>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  {{gemarkung.katasteramt.katasteramtName}}
+                </li>
+                <li class="list-group-item">
+                  Katasteramt Nummer: {{gemarkung.katasteramt.katasterNummer}}
+                </li>
+              </ul>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+  <h1> Standorte suchen</h1>
+
+  <form
+    [formGroup]="coordinateForm"
+    class="needs-validation"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="input-group mb-3 me-2">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="longitude"
+            id="longitude"
+            placeholder="Longitude"
+            [class.is-invalid]="longitude?.invalid && (longitude?.dirty || longitude?.touched)"
+            required
+          >
+          <label for="longitude">
+            Längengrad
+          </label>
+          <div class="invalid-feedback">
+            Bitte gib einen Längengrad an
+          </div>
+        </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="latitude"
+            id="latitude"
+            placeholder="Latitude"
+            [class.is-invalid]="latitude?.invalid && (latitude?.dirty || latitude?.touched)"
+            required
+          >
+          <label for="latitude">
+            Breitengrad
+          </label>
+          <div class="invalid-feedback">
+            Bitte gib einen Breitengrad an
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group mb-3 radius">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="radius"
+            id="radius"
+            placeholder="Kilometers"
+            [class.is-invalid]="radius?.invalid && (radius?.dirty || radius?.touched)"
+            required
+          >
+          <label for="radius">
+            Radius in Metern
+          </label>
+          <div class="invalid-feedback">
+            Bitte gib einen Suchkreisradius an
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-grid">
+      <button
+        type="submit"
+        [disabled]="!coordinateForm.valid"
+        class="btn btn-dark">
+        <i class="bi bi-search"></i>
+        Suchen
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,37 @@
+<div class="menu">
+  <img src="../../../../assets/BMDV-Logo.png">
+  <div class="card">
+    <div class="card-body">
+      <div class="authBlock">
+        <h3>Anmelden</h3>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="E-Mail Adresse" #userName required>
+        </div>
+        <div class="input-group">
+          <input type="password" class="form-control" placeholder="Passwort" #userPassword required>
+        </div>
+        <!-- Calling SignIn Api from AuthService -->
+        <div class="input-group">
+          <input type="button" class="btn btn-primary" value="Einloggen"
+                 (click)="authService.SignIn(userName.value, userPassword.value)">
+        </div>
+        <div class="input-group">
+          <span class="or"><span class="orInner">oder</span></span>
+        </div>
+        <!-- Calling GoogleAuth Api from AuthService -->
+        <div class="input-group">
+          <button type="button" class="btn google-btn" (click)="authService.GoogleAuth()">
+            <i class="bi bi-google"></i> Mit Google anmelden
+          </button>
+        </div>
+        <div class="forgotPassword">
+          <span routerLink="/forgot-password">Passwort vergessen?</span>
+        </div>
+      </div>
+      <div class="redirectToLogin">
+        <span>Du hast noch keinen Account?<span class="redirect" routerLink="/register-user"> Registrieren </span></span>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,48 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+
+  img {
+    margin-top: 10vh;
+  }
+  .card {
+    margin-top: 5vh;
+    width: 40vw;
+  }
+
+  input {
+    margin-bottom: 1vh;
+  }
+
+  .or {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+  }
+
+  .google-btn {
+    background-color: #DE5246;
+    color: white;
+  }
+
+  .forgotPassword {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    cursor: pointer;
+  }
+
+  .forgotPassword:hover {
+    color: #004B76;
+  }
+
+  .redirect {
+    cursor: pointer;
+  }
+
+  .redirect:hover {
+    color: #004B76;
+  }
+
+
+}

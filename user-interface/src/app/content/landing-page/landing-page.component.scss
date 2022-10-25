@@ -1,0 +1,24 @@
+.radius {
+  width: 35%
+}
+
+.container {
+  padding-top: 20vh;
+  width: 700px;
+  height: 100%;
+  text-align: center;
+
+  h1 {
+    font-family: 'Open Sans', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 65px;
+    word-break: break-word;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #004B76;
+  }
+}
