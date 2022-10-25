@@ -12,7 +12,7 @@ import { MapService } from '../../../../../../core/services/utility-services/map
 })
 
 /**
- * Displays details on a selected flurstueck
+ * Displays details about a selected flurstueck
  */
 export class LocationDetailsComponent implements OnInit {
   selectedFlurstuecke: Flurstueck[] = [];

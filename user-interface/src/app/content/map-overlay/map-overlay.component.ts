@@ -11,6 +11,9 @@ import { Component, OnInit } from '@angular/core';
     '\n' +
     '<app-data-basket></app-data-basket>\n',
 })
+/**
+ * A component that is used to display an overlay on map, displaying all the controls and custom UI elements
+ */
 export class MapOverlayComponent implements OnInit {
   constructor() {}
 

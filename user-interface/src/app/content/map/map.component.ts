@@ -19,6 +19,10 @@ import { FlurstueckService } from '../../core/services/layer-services/flurstueck
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
+/**
+ * This component hold the map that is displayed in the userspace.
+ * It heavily relies on the map.service.ts for configuring the map.
+ */
 export class MapComponent implements AfterViewInit {
   map: Map | undefined = undefined;
   mapConfig: MapConfig;
@@ -46,6 +50,11 @@ export class MapComponent implements AfterViewInit {
     );
   }
 
+  /**
+   * This function is called after the view is initialized.
+   * It initializes the map, the view, the layers, the location layer and the search area layer.
+   * Furthermore, it refreshes the data in the map config object on changes and propagates it through the application
+   */
   ngAfterViewInit(): void {
     if (!this.map) {
       this.zone.runOutsideAngular(() => this.initMap());
@@ -66,6 +75,11 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Initialise the map with the config data from the map config object
+   * Hint: if map config object is found in the local storage,
+   * the state will be restored and the map will be centered to the previous, view extent.
+   */
   private initMap(): void {
     this.view = new View({
       center: this.mapConfig.center,

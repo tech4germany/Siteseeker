@@ -6,6 +6,8 @@ import { SidebarService } from '../../../../../core/services/utility-services/si
   templateUrl: './local-info-menu.component.html',
   styleUrls: ['./local-info-menu.component.scss'],
 })
+/**
+ * The sidebar menu which holds the local area context information */
 export class LocalInfoMenuComponent implements OnInit {
   constructor(private sidebarService: SidebarService) {}
 

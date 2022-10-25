@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
 })
+/**
+ * Handles the input of coordinates and radius.
+ */
 export class LandingPageComponent implements OnInit {
   coordinateForm: FormGroup = new FormGroup({
     longitude: new FormControl(null, [
@@ -60,9 +63,5 @@ export class LandingPageComponent implements OnInit {
       <number>this.coordinateForm.get('radius')?.value
     );
     this.router.navigateByUrl('/userspace/map');
-  }
-
-  createProject() {
-    // this.persistenceService.create(new Project(1));
   }
 }

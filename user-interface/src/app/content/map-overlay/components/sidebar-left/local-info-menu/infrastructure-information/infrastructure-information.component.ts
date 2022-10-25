@@ -8,6 +8,11 @@ import { MapService } from '../../../../../../core/services/utility-services/map
   templateUrl: './infrastructure-information.component.html',
   styleUrls: ['./infrastructure-information.component.scss'],
 })
+/**
+ * Displays area based infrastructure information
+ *
+ * Developer Note: This is not fully implemented as we do not have access to this data yet
+ * */
 export class InfrastructureInformationComponent implements OnInit {
   searchArea: SearchArea;
 

@@ -8,6 +8,9 @@ import { LayersControlService } from '../../../../core/services/utility-services
   templateUrl: './layers-menu.component.html',
   styleUrls: ['./layers-menu.component.scss'],
 })
+/**
+ * A component that controls the visibility of the map layers
+ */
 export class LayersMenuComponent implements OnInit {
   isMenuOpen: boolean = false;
 
@@ -24,6 +27,10 @@ export class LayersMenuComponent implements OnInit {
 
   constructor(private layersControlService: LayersControlService) {}
 
+  /**
+   * Propagates layer settings to layers via the layer control service
+   * and persists current layer settings (only the checkboxes) in local storage
+   */
   ngOnInit(): void {
     // Restore selected maps settings
     const storedMapControls = JSON.parse(
