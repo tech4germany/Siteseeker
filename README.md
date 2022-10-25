@@ -57,7 +57,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 The application heavily relies on the map framework [Openlayers](https://openlayers.org/) for displaying and manipulating geo data. 
 
 #### Geo Data Sources: 
-For the base maps the application relies on data from [Openstreetmap](https://www.openstreetmap.org/#map=14/50.8061/7.6028) as well as satellite imagery from [ArcGIS](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9). Further more we utilise the open APIs of the local [cadastre of Rhineland-Palatinate](https://www.geoportal.rlp.de/) to query maps and metadata on public infrastructure, protected areas, etc.
+For the base maps the application relies on data from [OpenStreetMap](https://www.openstreetmap.org/#map=14/50.8061/7.6028) as well as satellite imagery from [ArcGIS](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9). Further more we utilise the open APIs of the local [cadastre of Rhineland-Palatinate](https://www.geoportal.rlp.de/) to query maps and metadata on public infrastructure, protected areas, etc.
 
 #### Reverse Geocoding:
 To resolve coordinates to addresses, we utilise reverse geocoding. For this we call the [ArcGIS Geocoding Service](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm).
