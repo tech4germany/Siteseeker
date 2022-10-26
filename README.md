@@ -55,7 +55,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## System Architecture
 ![](Siteseeker_Deployment_Diagram.png)
 
-The Siteseeker Prototype consumes data from other outside services and uses a map framework to visualize the data in an Angular based Web App. In the following we want to elaborate on the different components that we utilised, which are displayed in the deployment diagram above.  
+The Siteseeker Prototype consumes data from other external services and uses a map framework to visualize the data in an Angular based Web App. In the following we want to elaborate on the different components that we utilised, which are displayed in the deployment diagram above.  
 
 ### Angular & UI Library
 We use the web application framework [Angular](https://angular.io/) as the base platform for our web application. It provides us with a framework for routing and bundling the application, and delivers a rich ecosystem of tools and libraries.  
@@ -94,7 +94,7 @@ Then for deployment follow these steps:
 ---
 
 ## Roadmap
-For an elaborate roadmap on how this prototype should progress into a full-blown application, we ask you to please have a look at the [project documentation]() and the [issues]() in this repository. However, we are giving a brief overview over the technical roadmap here.
+For an elaborate roadmap on how this prototype should progress into a full-blown application, we ask you to please have a look at the [project documentation](https://tech.4germany.org/projekte/) and the [issues](https://github.com/tech4germany/BMDV-Mobilfunk/issues) in this repository. However, we are giving a brief overview over the technical roadmap here.
 
 ### Milestones
 In the following we define technical milestones that would greatly enhance the application and improve a location canvassers workflow. These milestones are derived from architectural best practices for enhancing the prototype, and according to feedback from user interviews and user tests.
@@ -108,7 +108,7 @@ To decouple the clientside application from all these problems, a server-side sy
 When a server-side system, as proposed in M1, has been developed, we need to consolidate the existing data sources for geo- and administrationdata of the individual federal states in Germany to a single data source. For this, a close collaboration with the state administrations is needed, as not all data that is needed is currently provided, although all data that is used by the application (except for detailed infrastructure data from the [ISA](https://isa.bundesnetzagentur.de/home/#/)) is public under the [german open data act](http://www.gesetze-im-internet.de/egovg/__12a.html). For coordinating this effort, a close collaboration with the [federal administration unit for open data](https://www.bva.bund.de/DE/Services/Behoerden/Beratung/Beratungszentrum/OpenData/opendata_node.html) is recommended.  
 
 #### M3: Authentication with Authorisation Management
-The next milestone towards a fully fledged application is the integration of an elaborate authorisation management. As proposed in the [project documentation](), the system is not only relevant for location canvassers in the telecoms industry, but also for people working in the renewable energy sector, electrical charging infrastructure sector and many more industries. 
+The next milestone towards a fully fledged application is the integration of an elaborate authorisation management. As proposed in the [project documentation](https://tech.4germany.org/projekte/), the system is not only relevant for location canvassers in the telecoms industry, but also for people working in the renewable energy sector, electrical charging infrastructure sector and many more industries. 
 
 To provide all of these users with a user-centric experience, only displaying data relevant to them, a role system is needed. This role system should support scoping available data for certain user groups, and give the administration the ability verify if a user is eligible to view protected data, e.g. infrastructure data from the [ISA](https://isa.bundesnetzagentur.de/home/#/). However, data that is available under open data needs to stay available without the need for authorisation or authentication.
 
@@ -119,11 +119,15 @@ After an authorisation management, as proposed in M4, is set up, we can start in
 When all crucial data that is needed to identify a suitable site is available in the application, the next step would be to integrate the system with all german land registries, to enable users to order property owner data. This heavily relies on the authorisation system proposed in M3. Furthermore, an integration of payment systems of the individual land registries, which only provide this data for money, is needed. This feature ranked very high in our user tests and would speed up the identification process for a suitable infrastructure sites even more. Read more about this in our project documentation.  
 
 #### M6 (stretch goal): 3D Topo- & Geodata integration
-To further enhance the site location process for the user group, an integration of detailed 3D models of the topography and surroundings of a site would be very helpful. As the prototype currently uses [Openlayers]() as the underling map framework, an integration with the [CeasiumJS]() library is possible, to integrate 3D models. Based on the 3D models, location canvassers can evaluate a site based on factors like surrounding building height, slopes and mountains, landscape structure etc.
+To further enhance the site location process for the user group, an integration of detailed 3D models of the topography and surroundings of a site would be very helpful. As the prototype currently uses [Openlayers](https://openlayers.org/) as the underling map framework, an integration with the [CeasiumJS](https://cesium.com/platform/cesiumjs/) library is possible, to integrate 3D models. Based on the 3D models, location canvassers can evaluate a site based on factors like surrounding building height, slopes and mountains, landscape structure etc.
 
 
 ### Restrictions and hurdles
+On our journey towards the prototype we encountered some technical restrictions and hurdles that need to be taken into account when continuing to work on the prototype:
 
-### Next steps
-
+- API documentations of public APIs (e.g. of the federal geoportals) are often outdated, insufficient or simply not existing
+- The data that we want to utilise in our project is scattered over many data sources in many formats (16 federal states, 10800 municipalities)
+- There is no standard for providing administration data, e.g. fields in the provided data are named randomly and there is no standard of what data needs to be provided by which API
+- Most geo services provided by the cadastres, provide data in pre rendered maps (WebMapServices) which do not allow for interacting with objects on the maps. For this the cadastre needs to provide the actual features and shapes, together with metadata (WebFeatureServices). The accessibility of these is limited. 
+- Some relevant data, as mentioned above, can not be provided publicly, e.g. Infrastructure data. 
 
