@@ -1,9 +1,9 @@
 # Siteseeker
 Hi there and welcome to the repository of the Siteseeker! 
 
-The Siteseeker is a prototype for an application that supports location canvassers in the telecommunications industry in Germany. It consolidates data from different public sources to enable a smoother experience. 
+The Siteseeker is a prototype for an application that supports location acquisitors in the telecommunications industry in Germany. It consolidates data from different public sources to enable a smoother experience. 
 
-At first glance, the canvasser receives the context of the site search area that is important to them: the number and details of public properties including contact options, the integration of protected areas, and information about the local administrative structure. In addition, detailed cadastre information from the real estate registers can be displayed directly in order to get to the next steps in the site development more quickly.
+At first glance, the acquisitor receives the context of the site search area that is important to them: the number and details of public properties including contact options, the integration of protected areas, and information about the local administrative structure. In addition, detailed cadastre information from the real estate registers can be displayed directly in order to get to the next steps in the site development more quickly.
 
 This project has been developed with sweat and love by the [Tech4Germany Cohort of 2022](https://digitalservice.bund.de/fellowships/tech4germany/projekte-2022#:~:text=Prozessoptimierung%20im%20Mobilfunkausbau) in collaboration with the [Federal Ministry for Digital and Transportation - DK14](https://bmdv.bund.de/EN/Home/home.html). More detailed information on the project can be found [here](https://tech.4germany.org/projekte/).
 
@@ -97,7 +97,7 @@ Then for deployment follow these steps:
 For an elaborate roadmap on how this prototype should progress into a full-blown application, we ask you to please have a look at the [project documentation](https://tech.4germany.org/projekte/) and the [issues](https://github.com/tech4germany/BMDV-Mobilfunk/issues) in this repository. However, we are giving a brief overview over the technical roadmap here.
 
 ### Milestones
-In the following we define technical milestones that would greatly enhance the application and improve a location canvassers workflow. These milestones are derived from architectural best practices for enhancing the prototype, and according to feedback from user interviews and user tests.
+In the following we define technical milestones that would greatly enhance the application and improve a location acquisitors workflow. These milestones are derived from architectural best practices for enhancing the prototype, and according to feedback from user interviews and user tests.
 
 #### M1: Serverside Data Aggregation
 The current prototype is a _showcase application_ and not a fully usable product. All data is persisted in local storage, which can lead to inconsistencies, when the data models are changed. Furthermore, all data used in the application is currently aggregated and consolidated in the frontend. The mapping of API data models to application domain models is hardcoded and not generic, making the integration of new data sources cumbersome. 
@@ -108,7 +108,7 @@ To decouple the clientside application from all these problems, a server-side sy
 When a server-side system, as proposed in M1, has been developed, we need to consolidate the existing data sources for geo- and administrationdata of the individual federal states in Germany to a single data source. For this, a close collaboration with the state administrations is needed, as not all data that is needed is currently provided, although all data that is used by the application (except for detailed infrastructure data from the [ISA](https://isa.bundesnetzagentur.de/home/#/)) is public under the [german open data act](http://www.gesetze-im-internet.de/egovg/__12a.html). For coordinating this effort, a close collaboration with the [federal administration unit for open data](https://www.bva.bund.de/DE/Services/Behoerden/Beratung/Beratungszentrum/OpenData/opendata_node.html) is recommended.  
 
 #### M3: Authentication with Authorisation Management
-The next milestone towards a fully fledged application is the integration of an elaborate authorisation management. As proposed in the [project documentation](https://tech.4germany.org/projekte/), the system is not only relevant for location canvassers in the telecoms industry, but also for people working in the renewable energy sector, electrical charging infrastructure sector and many more industries. 
+The next milestone towards a fully fledged application is the integration of an elaborate authorisation management. As proposed in the [project documentation](https://tech.4germany.org/projekte/), the system is not only relevant for location acquisitors in the telecoms industry, but also for people working in the renewable energy sector, electrical charging infrastructure sector and many more industries. 
 
 To provide all of these users with a user-centric experience, only displaying data relevant to them, a role system is needed. This role system should support scoping available data for certain user groups, and give the administration the ability verify if a user is eligible to view protected data, e.g. infrastructure data from the [ISA](https://isa.bundesnetzagentur.de/home/#/). However, data that is available under open data needs to stay available without the need for authorisation or authentication.
 
@@ -119,7 +119,7 @@ After an authorisation management, as proposed in M4, is set up, we can start in
 When all crucial data that is needed to identify a suitable site is available in the application, the next step would be to integrate the system with all german land registries, to enable users to order property owner data. This heavily relies on the authorisation system proposed in M3. Furthermore, an integration of payment systems of the individual land registries, which only provide this data for money, is needed. This feature ranked very high in our user tests and would speed up the identification process for a suitable infrastructure sites even more. Read more about this in our project documentation.  
 
 #### M6 (stretch goal): 3D Topo- & Geodata integration
-To further enhance the site location process for the user group, an integration of detailed 3D models of the topography and surroundings of a site would be very helpful. As the prototype currently uses [Openlayers](https://openlayers.org/) as the underling map framework, an integration with the [CeasiumJS](https://cesium.com/platform/cesiumjs/) library is possible, to integrate 3D models. Based on the 3D models, location canvassers can evaluate a site based on factors like surrounding building height, slopes and mountains, landscape structure etc.
+To further enhance the site location process for the user group, an integration of detailed 3D models of the topography and surroundings of a site would be very helpful. As the prototype currently uses [Openlayers](https://openlayers.org/) as the underling map framework, an integration with the [CeasiumJS](https://cesium.com/platform/cesiumjs/) library is possible, to integrate 3D models. Based on the 3D models, location acquisitors can evaluate a site based on factors like surrounding building height, slopes and mountains, landscape structure etc.
 
 
 ### Restrictions and hurdles
